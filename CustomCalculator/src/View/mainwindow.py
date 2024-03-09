@@ -1,20 +1,16 @@
-# This Python file uses the following encoding: utf-8
-from pathlib import Path
-import sys
-
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, \
-    QLineEdit, QVBoxLayout,  QRadioButton,  QComboBox, QCheckBox  # QTextEdit
-import form_ui
-from form_plot_ui import Ui_Plot
-import credit_calc_ui
-import deposit_calc_ui
-from ctypes import *
-from functools import partial
-import pyqtgraph as pg
-from pathlib import Path
-
-import datetime
+from user_controller import *
 from calendar import monthrange
+import datetime
+import pyqtgraph as pg
+from functools import partial
+import deposit_calc_ui
+import credit_calc_ui
+from form_plot_ui import Ui_Plot
+import form_ui
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, \
+    QLineEdit, QVBoxLayout,  QRadioButton,  QComboBox, QCheckBox
+import sys
+sys.path.append('./Controller/user_controller.py')
 
 
 class MainWindow(QMainWindow):
@@ -22,6 +18,8 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = form_ui.Ui_MainWindow()
         self.ui.setupUi(self)
+
+        self.controller = UserController()
 
         self.setWindowTitle("Smart calculator")
 
@@ -75,15 +73,18 @@ class MainWindow(QMainWindow):
     def calculate_expression(self):
 
         text_from_input_field: str = self.get_expr()
-
         x_val_str: str = self.get_variable_str()
-        is_valid = is_valid_inputs(text_from_input_field, x_val_str)
+        is_valid = self.controller.is_valid_inputs(
+            text_from_input_field, x_val_str)
 
         if not is_valid:
             self.output_field.setText("Invalid input or x")
         else:
-            self.output_field.setText(str(calculate_expr_at(
-                text_from_input_field, float_from_str(x_val_str))))
+            output_text = str(
+                self.controller.calculate_expr_at(
+                    text_from_input_field,
+                    self.controller.float_from_str(x_val_str)))
+            self.output_field.setText(output_text)
 
     def get_expr(self) -> str:
         text_from_input_field: str = str(
@@ -479,86 +480,6 @@ class DepositWindow(QMainWindow):
                          1_000_000 * KEY_BANK_PERCENT, 0)
 
         return (charges, got_taxes)
-
-
-def day_in_this_year(year: int) -> int:
-    days = 0
-    if year % 4 != 0:
-        days = 365
-    elif year % 100 != 0:
-        days = 366
-    elif year % 400 != 0:
-        days = 365
-    else:
-        days = 366
-    return days
-
-
-def convert_months_days(months: int) -> int:
-    date = datetime.datetime.now()
-    now_year, now_month = date.year, date.month
-    converted_time = 0
-    for i in range(months):
-        days_in_month = monthrange(now_year, now_month)[1]
-        converted_time += days_in_month
-        now_month += 1
-        if now_month > 12:
-            now_year += 1
-        now_month = 1
-
-    return converted_time
-
-
-def is_valid_variable_str(var_str: str) -> bool:
-    var_str = var_str.replace(",", ".")
-    is_valid = True
-    try:
-        x_value: float = float(var_str)
-        is_valid = is_valid and (
-            var_str[0].isdigit() or var_str[0] in ['-', '+'])
-    except ValueError:
-        is_valid = False
-    return is_valid
-
-
-def is_valid_integer_varible_str(var_str: str) -> bool:
-    return is_valid_variable_str(var_str) \
-        and var_str.isdigit() \
-
-
-
-def float_from_str(var_str: str) -> float:
-    var_str = var_str.replace(",", ".")
-    if not is_valid_variable_str(var_str):
-        raise Exception("Getting value from incorrect string!")
-    else:
-        return float(var_str)
-
-
-def is_valid_inputs(expression: str, x_input: str) -> bool:
-    so_file = str(Path(__file__).absolute())
-    so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
-    shared_fun = CDLL(so_file)
-
-    arg_to_pass = expression.encode('ascii')
-    is_valid = shared_fun.is_valid_input(arg_to_pass)
-    is_valid = is_valid and is_valid_variable_str(x_input)
-
-    return is_valid
-
-
-def calculate_expr_at(expr: str, x: float) -> float:
-    if not is_valid_inputs(expr, str(x)):
-        raise Exception("Calculation on invalid string!")
-
-    so_file = str(Path(__file__).absolute())
-    so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
-    shared_fun = CDLL(so_file)
-    shared_fun.calculate.argtypes = [c_char_p, c_longdouble]
-    shared_fun.calculate.restype = c_longdouble  # c_longdouble  # c_double
-
-    arg_to_pass = expr.encode('ascii')
-    return shared_fun.calculate(arg_to_pass, x)
 
 
 if __name__ == "__main__":
