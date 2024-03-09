@@ -1,7 +1,7 @@
 
 import sys
 import help_functions
-sys.path.append('./Model/help_functions.py')
+sys.path.append('../Model/help_functions.py')
 
 
 class UserController():

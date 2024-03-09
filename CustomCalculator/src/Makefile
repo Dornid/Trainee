@@ -1,4 +1,4 @@
-VENV_NAME = custom_temporaty_venv
+VENV_NAME = CustomTemporatyVenv
 MAIN_PYTHON_FILE = mainwindow.py
 
 CC = gcc
@@ -8,9 +8,9 @@ LIBRARY_FILE_A = s21_calculate.a
 SHARED_LIB_NAME = calculate
 PATH_BUILD = $(shell pwd)/build
 CFLAGS_GCOV = -fprofile-arcs -ftest-coverage
-BINNAME = SmartCalc
+BINNAME = CustomCalculator
 
-all: install
+all: install start_calculator
 
 install: uninstall 
 	mkdir build
@@ -20,9 +20,13 @@ install: uninstall
 		. ./$(VENV_NAME)/bin/activate; \
 		pip3 install pyside6; \
 		pip3 install pyqtgraph; \
-		cp ../Model/* ../Controller/* ../View/* ../testing_files . -r; \
-		gcc -Wall -fPIC -shared -o lib$(SHARED_LIB_NAME).so calculate.h *.c; \
-		echo "$(PATH_BUILD)/custom_temporaty_venv/bin/python3 $(PATH_BUILD)/mainwindow.py" >> $(BINNAME); \
+		cp ../Model ../Controller ../View ../TestingFiles . -r; \
+		gcc -Wall -fPIC -shared ./Model/*.c ./Model/*.h -o ./Model/lib$(SHARED_LIB_NAME).so; \
+		pyside6-uic ./View/form.ui -o ./View/form_ui.py; \
+		pyside6-uic ./View/form_plot.ui -o ./View/form_plot_ui.py; \
+		pyside6-uic ./View/credit_calc.ui -o ./View/credit_calc_ui.py; \
+		pyside6-uic ./View/deposit_calc.ui -o ./View/deposit_calc_ui.py; \
+		echo "$(PATH_BUILD)/$(VENV_NAME)/bin/python3 $(PATH_BUILD)/View/mainwindow.py" >> $(BINNAME); \
 		chmod +x $(BINNAME); \
 		deactivate; \
 

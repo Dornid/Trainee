@@ -58,7 +58,7 @@ def float_from_str(var_str: str) -> float:
 
 def is_valid_inputs(expression: str, x_input: str) -> bool:
     so_file = str(Path(__file__).absolute())
-    so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
+    so_file = so_file[:so_file.rfind('/') + 1] + "/Model/libcalculate.so"
     shared_fun = CDLL(so_file)
 
     arg_to_pass = expression.encode('ascii')
@@ -73,7 +73,7 @@ def calculate_expr_at(expr: str, x: float) -> float:
         raise Exception("Calculation on invalid string!")
 
     so_file = str(Path(__file__).absolute())
-    so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
+    so_file = so_file[:so_file.rfind('/') + 1] + "/Model/libcalculate.so"
     shared_fun = CDLL(so_file)
     shared_fun.calculate.argtypes = [c_char_p, c_longdouble]
     shared_fun.calculate.restype = c_longdouble  # c_longdouble  # c_double
