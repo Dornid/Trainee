@@ -20,7 +20,7 @@ install: uninstall
 		. ./$(VENV_NAME)/bin/activate; \
 		pip3 install pyside6; \
 		pip3 install pyqtgraph; \
-		cp ../*.c ../*.h ../*.py ../*.ui ../testing_files . -r; \
+		cp ../Model/* ../Controller/* ../View/* ../testing_files . -r; \
 		gcc -Wall -fPIC -shared -o lib$(SHARED_LIB_NAME).so calculate.h *.c; \
 		echo "$(PATH_BUILD)/custom_temporaty_venv/bin/python3 $(PATH_BUILD)/mainwindow.py" >> $(BINNAME); \
 		chmod +x $(BINNAME); \
@@ -55,4 +55,6 @@ uninstall:
 	rm -rf build
 
 clean: uninstall
-	rm -rf $(LIBRARY_FILE_A) SmartCalc test __pycache__ Meow.info CatReport a.out dist-idaliaka-smartcalc.tar.gz custom_temporaty_venv
+	rm -rf $(LIBRARY_FILE_A) SmartCalc test __pycache__ Meow.info CatReport a.out 
+	rm -fr dist-idaliaka-smartcalc.tar.gz custom_temporaty_venv 
+	rm -fr *ui.py ./View/*ui.py
