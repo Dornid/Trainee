@@ -4,7 +4,6 @@ MAIN_PYTHON = main.py
 CC = gcc
 LIBS_CHECK = $(shell pkg-config --cflags --libs check) 
 C_FILE_TESTS = TestingFiles/testing_src.c TestingFiles/testing_header.h
-LIBRARY_FILE_A = s21_calculate.a
 SHARED_LIB_NAME = calculate
 PATH_BUILD = $(shell pwd)/build
 CFLAGS_GCOV = -fprofile-arcs -ftest-coverage
@@ -34,9 +33,9 @@ start_calculator:
 	./build/$(BINNAME)
 
 test: install
-	cd build; \
-		$(CC) $(C_FILE_TESTS) -Wl,-rpath=$(PATH_BUILD) -o test $(LIBS_CHECK) -L$(PATH_BUILD) -l$(SHARED_LIB_NAME); 
-	./build/test
+	cd build/TestingFiles; \
+		$(CC) *.c *.h -Wl,-rpath=$(PATH_BUILD)/Model -o test $(LIBS_CHECK) -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME); \
+		./test
 
 gcov_report: install
 	cd build/TestingFiles; \
@@ -59,6 +58,6 @@ uninstall:
 	rm -rf build
 
 clean: uninstall
-	rm -rf $(LIBRARY_FILE_A) SmartCalc test __pycache__ ./View/__pycache__ Meow.info CatReport a.out 
+	rm -rf SmartCalc test __pycache__ ./View/__pycache__ Meow.info CatReport a.out 
 	rm -fr dist-idaliaka-smartcalc.tar.gz custom_temporaty_venv 
 	rm -fr *ui.py ./View/*ui.py ./View/ui/*ui.py
