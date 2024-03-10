@@ -1,7 +1,7 @@
-from user_controller import UserController
 from PySide6.QtWidgets import QMainWindow, QPushButton, QLineEdit, QVBoxLayout
-from form_plot_ui import Ui_Plot
+from View.ui.form_plot_ui import Ui_Plot
 import pyqtgraph as pg
+from Controller.user_controller import UserController
 
 import sys
 sys.path.append('../Controller/user_controller.py')
@@ -62,6 +62,9 @@ class PlotWindow(QMainWindow):
         y_max_str = str(self.y_max_edit.text())
 
         is_valid_inputs = self.controller.is_valid_inputs
+        is_valid_variable_str = self.controller.is_valid_variable_str
+        float_from_str = self.controller.float_from_str
+        calculate_expr_at = self.controller.calculate_expr_at
 
         all_strs_valid = is_valid_inputs(
             self.main_window.get_expr(), self.main_window.get_variable_str()) \

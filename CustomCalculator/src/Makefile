@@ -22,10 +22,10 @@ install: uninstall
 		pip3 install pyqtgraph; \
 		cp ../Model ../Controller ../View ../TestingFiles ../$(MAIN_PYTHON) . -r; \
 		gcc -Wall -fPIC -shared ./Model/*.c ./Model/*.h -o ./Model/lib$(SHARED_LIB_NAME).so; \
-		pyside6-uic ./View/form.ui -o ./View/form_ui.py; \
-		pyside6-uic ./View/form_plot.ui -o ./View/form_plot_ui.py; \
-		pyside6-uic ./View/credit_calc.ui -o ./View/credit_calc_ui.py; \
-		pyside6-uic ./View/deposit_calc.ui -o ./View/deposit_calc_ui.py; \
+		pyside6-uic ./View/ui/form.ui -o ./View/ui/form_ui.py; \
+		pyside6-uic ./View/ui/form_plot.ui -o ./View/ui/form_plot_ui.py; \
+		pyside6-uic ./View/ui/credit_calc.ui -o ./View/ui/credit_calc_ui.py; \
+		pyside6-uic ./View/ui/deposit_calc.ui -o ./View/ui/deposit_calc_ui.py; \
 		echo "$(PATH_BUILD)/$(VENV_NAME)/bin/python3 $(PATH_BUILD)/$(MAIN_PYTHON)" >> $(BINNAME); \
 		chmod +x $(BINNAME); \
 		deactivate; \
@@ -59,6 +59,6 @@ uninstall:
 	rm -rf build
 
 clean: uninstall
-	rm -rf $(LIBRARY_FILE_A) SmartCalc test __pycache__ Meow.info CatReport a.out 
+	rm -rf $(LIBRARY_FILE_A) SmartCalc test __pycache__ ./View/__pycache__ Meow.info CatReport a.out 
 	rm -fr dist-idaliaka-smartcalc.tar.gz custom_temporaty_venv 
-	rm -fr *ui.py ./View/*ui.py
+	rm -fr *ui.py ./View/*ui.py ./View/ui/*ui.py
