@@ -22,9 +22,6 @@ class UserController():
     def is_valid_variable_str(self, var_str: str) -> bool:
         return help_functions.is_valid_variable_str(var_str)
 
-    def convert_months_days(self, months: int) -> int:
-        return help_functions.convert_months_days(months)
-
     def day_in_this_year(self, year: int) -> int:
         return help_functions.day_in_this_year(year)
 
