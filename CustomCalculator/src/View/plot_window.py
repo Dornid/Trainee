@@ -3,9 +3,6 @@ from View.ui.form_plot_ui import Ui_Plot
 import pyqtgraph as pg
 from Controller.user_controller import UserController
 
-import sys
-sys.path.append('../Controller/user_controller.py')
-
 
 class PlotWindow(QMainWindow):
 

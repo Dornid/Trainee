@@ -1,5 +1,7 @@
 from pathlib import Path
 from ctypes import *
+import datetime
+from calendar import monthrange
 
 
 def day_in_this_year(year: int) -> int:
@@ -13,21 +15,6 @@ def day_in_this_year(year: int) -> int:
     else:
         days = 366
     return days
-
-
-def convert_months_days(months: int) -> int:
-    date = datetime.datetime.now()
-    now_year, now_month = date.year, date.month
-    converted_time = 0
-    for i in range(months):
-        days_in_month = monthrange(now_year, now_month)[1]
-        converted_time += days_in_month
-        now_month += 1
-        if now_month > 12:
-            now_year += 1
-        now_month = 1
-
-    return converted_time
 
 
 def is_valid_variable_str(var_str: str) -> bool:

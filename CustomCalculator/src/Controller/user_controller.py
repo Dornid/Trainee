@@ -1,6 +1,6 @@
 
 import sys
-from Model import help_functions, credit_model
+from Model import help_functions, credit_model, deposit_model
 
 
 class UserController():
@@ -33,3 +33,7 @@ class UserController():
                          month_is_checked: bool, annuity_is_checked: bool) -> tuple[str, str, str]:
         return credit_model.credit_calculate(sum_str, rate_str, time_str,
                                              month_is_checked, annuity_is_checked)
+
+    def deposit_calculate(self, sum_str: str, rate_str: str, time_str: str,
+                          tax_str: str, capitilization_checked: bool) -> tuple[str, str, str]:
+        return deposit_model.calculate(sum_str, rate_str, time_str, tax_str, capitilization_checked)
