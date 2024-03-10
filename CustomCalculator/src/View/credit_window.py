@@ -41,53 +41,66 @@ class CreditWindow(QMainWindow):
         self.apply_button.clicked.connect(self.calculate)
 
     def calculate(self):
+        str_payment, str_overpayment, str_total = self.controller.credit_calculate(
+            str(self.sum_field.text()),
+            str(self.rate_field.text()),
+            str(self.time_field.text()),
+            self.month_radio.isChecked(),
+            self.annuity_radio.isChecked()
+        )
 
-        sum_str = str(self.sum_field.text())
-        rate_str = str(self.rate_field.text())
-        time_str = str(self.time_field.text())
+        self.payment_field.setText(str_payment)
+        self.overpayment_field.setText(str_overpayment)
+        self.total_field.setText(str_total)
 
-        is_valid_variable_str = self.controller.is_valid_variable_str
-        float_from_str = self.controller.float_from_str
-        is_valid_integer_varible_str = self.controller.is_valid_integer_varible_str
+        # sum_str = str(self.sum_field.text())
+        # rate_str = str(self.rate_field.text())
+        # time_str = str(self.time_field.text())
 
-        all_strs_correct = is_valid_variable_str(sum_str) \
-            and is_valid_integer_varible_str(time_str) \
-            and is_valid_variable_str(rate_str)
+        # is_valid_variable_str = self.controller.is_valid_variable_str
+        # float_from_str = self.controller.float_from_str
+        # is_valid_integer_varible_str = self.controller.is_valid_integer_varible_str
 
-        all_nums_correct = all_strs_correct \
-            and float_from_str(sum_str) > 0 \
-            and 0 <= float_from_str(rate_str) <= 1000 \
-            and (self.month_radio.isChecked() and 1 <= float_from_str(time_str) <= 600
-                 or self.year_radio.isChecked() and 1 <= float_from_str(time_str) <= 50)
+        # all_strs_correct = is_valid_variable_str(sum_str) \
+        #     and is_valid_integer_varible_str(time_str) \
+        #     and is_valid_variable_str(rate_str)
 
-        if all_nums_correct:
-            credit = float_from_str(sum_str)
-            rate = float_from_str(rate_str)
-            time = int(float_from_str(time_str))
+        # all_nums_correct = all_strs_correct \
+        #     and float_from_str(sum_str) > 0 \
+        #     and 0 <= float_from_str(rate_str) <= 1000 \
+        #     and (self.month_radio.isChecked() and 1 <= float_from_str(time_str) <= 600
+        #          or self.year_radio.isChecked() and 1 <= float_from_str(time_str) <= 50)
 
-            if self.year_radio.isChecked():
-                time *= 12
+        # if all_nums_correct:
+        #     credit = float_from_str(sum_str)
+        #     rate = float_from_str(rate_str)
+        #     time = int(float_from_str(time_str))
 
-            p = rate / 1200
-            if self.annuity_radio.isChecked():
-                payment = credit * p * (1 + p)**time / ((1 + p)**time - 1)
-                payments = [payment] * time
-                self.payment_field.setText(str(payment))
-            else:
-                d = credit / time
+        #     if self.year_radio.isChecked():
+        #         time *= 12
 
-                payments = [d + (credit - d * (month - 1)) *
-                            p for month in range(1, time + 1)]
-                self.payment_field.setText(
-                    str(payments[0]) + " -> " + str(payments[-1]))
+        #     p = rate / 1200
+        #     if self.annuity_radio.isChecked():
+        #         payment = credit * p * (1 + p)**time / ((1 + p)**time - 1)
+        #         payments = [payment] * time
+        #         self.payment_field.setText(str(payment))
+        #     else:
+        #         d = credit / time
 
-            total = sum(payments)
-            overpayment = total - credit
+        #         payments = [d + (credit - d * (month - 1)) *
+        #                     p for month in range(1, time + 1)]
+        #         self.payment_field.setText(
+        #             str(payments[0]) + " -> " + str(payments[-1]))
 
-            self.overpayment_field.setText(str(overpayment))
-            self.total_field.setText(str(total))
+        #     total = sum(payments)
+        #     overpayment = total - credit
 
-        else:
-            self.total_field.setText("Invalid input")
-            self.payment_field.setText("Invalid input")
-            self.overpayment_field.setText("Invalid input")
+        #     str_payment, str_overpayment, str_total = self.controller.credit_calculate()
+
+        #     self.overpayment_field.setText(str(overpayment))
+        #     self.total_field.setText(str(total))
+
+        # else:
+        #     self.total_field.setText("Invalid input")
+        #     self.payment_field.setText("Invalid input")
+        #     self.overpayment_field.setText("Invalid input")

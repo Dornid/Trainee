@@ -1,7 +1,6 @@
 
 import sys
-from Model import help_functions
-sys.path.append('../Model/help_functions.py')
+from Model import help_functions, credit_model
 
 
 class UserController():
@@ -28,3 +27,9 @@ class UserController():
 
     def day_in_this_year(self, year: int) -> int:
         return help_functions.day_in_this_year(year)
+
+    def credit_calculate(self,
+                         sum_str: str, rate_str: str, time_str: str,
+                         month_is_checked: bool, annuity_is_checked: bool) -> tuple[str, str, str]:
+        return credit_model.credit_calculate(sum_str, rate_str, time_str,
+                                             month_is_checked, annuity_is_checked)
