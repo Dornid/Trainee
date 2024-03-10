@@ -1,6 +1,6 @@
 
 import sys
-import help_functions
+from Model import help_functions
 sys.path.append('../Model/help_functions.py')
 
 

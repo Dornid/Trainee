@@ -1,5 +1,5 @@
 VENV_NAME = CustomTemporatyVenv
-MAIN_PYTHON_FILE = mainwindow.py
+MAIN_PYTHON = main.py
 
 CC = gcc
 LIBS_CHECK = $(shell pkg-config --cflags --libs check) 
@@ -20,13 +20,13 @@ install: uninstall
 		. ./$(VENV_NAME)/bin/activate; \
 		pip3 install pyside6; \
 		pip3 install pyqtgraph; \
-		cp ../Model ../Controller ../View ../TestingFiles . -r; \
+		cp ../Model ../Controller ../View ../TestingFiles ../$(MAIN_PYTHON) . -r; \
 		gcc -Wall -fPIC -shared ./Model/*.c ./Model/*.h -o ./Model/lib$(SHARED_LIB_NAME).so; \
 		pyside6-uic ./View/form.ui -o ./View/form_ui.py; \
 		pyside6-uic ./View/form_plot.ui -o ./View/form_plot_ui.py; \
 		pyside6-uic ./View/credit_calc.ui -o ./View/credit_calc_ui.py; \
 		pyside6-uic ./View/deposit_calc.ui -o ./View/deposit_calc_ui.py; \
-		echo "$(PATH_BUILD)/$(VENV_NAME)/bin/python3 $(PATH_BUILD)/View/mainwindow.py" >> $(BINNAME); \
+		echo "$(PATH_BUILD)/$(VENV_NAME)/bin/python3 $(PATH_BUILD)/$(MAIN_PYTHON)" >> $(BINNAME); \
 		chmod +x $(BINNAME); \
 		deactivate; \
 

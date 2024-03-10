@@ -1,16 +1,20 @@
-import sys
+# import os
+# os.system('ls')
+# print(__file__)
+
+# import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, \
     QLineEdit, QVBoxLayout,  QRadioButton,  QComboBox, QCheckBox
-import form_ui
-import credit_calc_ui
-import deposit_calc_ui
+import View.form_ui
+import View.credit_calc_ui
+import View.deposit_calc_ui
 from functools import partial
 import datetime
 from calendar import monthrange
 # from plot_window import PlotWindow
-from user_controller import UserController
+from Controller.user_controller import UserController
 # sys.path.append('..')
-# sys.path.append('../Controller/user_controller.py')
+# sys.path.append('./build/Controller')
 
 
 class MainWindow(QMainWindow):
@@ -382,8 +386,8 @@ class DepositWindow(QMainWindow):
         return (charges, got_taxes)
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    calc_window = MainWindow()
-    calc_window.show()
-    app.exec()
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     calc_window = MainWindow()
+#     calc_window.show()
+#     app.exec()
