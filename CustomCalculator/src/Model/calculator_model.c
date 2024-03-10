@@ -1,4 +1,4 @@
-#include "calculate.h"
+#include "calculator_model.h"
 
 #define MAXLENGTH 300
 

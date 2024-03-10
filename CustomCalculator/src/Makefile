@@ -3,7 +3,7 @@ MAIN_PYTHON = main.py
 
 CC = gcc
 LIBS_CHECK = $(shell pkg-config --cflags --libs check) 
-C_FILE_TESTS = testing_files/testing_src.c testing_files/testing_header.h
+C_FILE_TESTS = TestingFiles/testing_src.c TestingFiles/testing_header.h
 LIBRARY_FILE_A = s21_calculate.a
 SHARED_LIB_NAME = calculate
 PATH_BUILD = $(shell pwd)/build
@@ -39,10 +39,10 @@ test: install
 	./build/test
 
 gcov_report: install
-	cd build; \
-		$(CC) -c *.c  $(CFLAGS_GCOV); \
-		$(CC) *.o $(C_FILE_TESTS) -o test_gcov $(LIBS_CHECK) -lgcov; 
-	./build/test_gcov 
+	cd build/TestingFiles; \
+		$(CC) -c *.c *.h ../Model/*.c ../Model/*.h $(CFLAGS_GCOV); \
+		$(CC) *.o -o test_gcov $(LIBS_CHECK) -lgcov; \
+		./test_gcov 
 	lcov --directory ./build/ --capture --output ./build/Meow.info
 	genhtml ./build/Meow.info --output ./build/CatReport
 	open ./build/CatReport/index.html		

@@ -3,6 +3,6 @@
 
 #include <check.h>
 
-#include "../calculate.h"
+#include "../Model/calculator_model.h"
 
 #endif  // TESTING_H

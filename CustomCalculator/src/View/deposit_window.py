@@ -13,6 +13,8 @@ class DepositWindow(QMainWindow):
         self.ui = View.ui.deposit_calc_ui.Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.controller = UserController()
+
         self.setWindowTitle("Deposit details")
 
         self.sum_field = self.findChild(QLineEdit, "sum_deposit_line_edit")
@@ -104,35 +106,35 @@ class DepositWindow(QMainWindow):
 
         return all_nums_correct
 
-    def get_replenishment_period(self) -> int:
-        if self.replenishment_combobox.currentText() == "Once a month":
-            period = 1
-        elif self.replenishment_combobox.currentText() == "Once in two months":
-            period = 2
-        elif self.replenishment_combobox.currentText() == "Once a quarter":
-            period = 3
-        elif self.replenishment_combobox.currentText() == "Semiannually":
-            period = 6
-        elif self.replenishment_combobox.currentText() == "Annually":
-            period = 12
-        else:
-            period = -1
-        return period
+    # def get_replenishment_period(self) -> int:
+    #     if self.replenishment_combobox.currentText() == "Once a month":
+    #         period = 1
+    #     elif self.replenishment_combobox.currentText() == "Once in two months":
+    #         period = 2
+    #     elif self.replenishment_combobox.currentText() == "Once a quarter":
+    #         period = 3
+    #     elif self.replenishment_combobox.currentText() == "Semiannually":
+    #         period = 6
+    #     elif self.replenishment_combobox.currentText() == "Annually":
+    #         period = 12
+    #     else:
+    #         period = -1
+    #     return period
 
-    def get_withdrawal_period(self) -> int:
-        if self.withdrawal_combobox.currentText() == "Once a month":
-            period = 1
-        elif self.withdrawal_combobox.currentText() == "Once in two months":
-            period = 2
-        elif self.withdrawal_combobox.currentText() == "Once a quarter":
-            period = 3
-        elif self.withdrawal_combobox.currentText() == "Semiannually":
-            period = 6
-        elif self.withdrawal_combobox.currentText() == "Annually":
-            period = 12
-        else:
-            period = -1
-        return period
+    # def get_withdrawal_period(self) -> int:
+    #     if self.withdrawal_combobox.currentText() == "Once a month":
+    #         period = 1
+    #     elif self.withdrawal_combobox.currentText() == "Once in two months":
+    #         period = 2
+    #     elif self.withdrawal_combobox.currentText() == "Once a quarter":
+    #         period = 3
+    #     elif self.withdrawal_combobox.currentText() == "Semiannually":
+    #         period = 6
+    #     elif self.withdrawal_combobox.currentText() == "Annually":
+    #         period = 12
+    #     else:
+    #         period = -1
+    #     return period
 
     def process_charges_taxes(self, deposit, time, is_making_repls, repl_months_period,
                               replenishment, is_making_withdraws, withdr_months_period, withdrawal, rate) -> (int, int):

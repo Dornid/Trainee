@@ -6,19 +6,12 @@
 #include <locale.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define STACK_CAPACITY 300
 
-// delete it!
-#include <stdio.h>
-
-#define STACK_CAPACITY 300
-// #define CLOSE_BRACKET_TYPE 1
-// #define CLOSE_BRACKET_PROIRITY 0
-// #define OPEN_BRACKET_TYPE 2
-// #define OPEN_BRACKET_PROIRITY 0
 #define PRIORITY_ZERO 0
 #define PRIORITY_ONE 1
 #define PRIORITY_TWO 10
@@ -32,20 +25,8 @@
 #define OPERATION_TYPE 2222
 #define CLOSING_TYPE 666
 
-// #define X_TYPE 3
-// #define PLUS_TYPE 4
-// #define MINUS_TYPE 5
-// #define MUL_TYPE 6
-// #define DIV_TYPE 7
-// #define MOD_TYPE 8
-// #define POW_TYPE 9
-
 long double calculate(char string[], long double x_value);
 bool is_valid_input(char string[]);
-// struct stack
-// {
-//     /* data */
-// };
 
 typedef struct {
   long double value;
@@ -54,16 +35,5 @@ typedef struct {
   int type;
   char printed[10];
 } lexeme;
-
-// typedef struct {
-//   lexeme lexemes[STACK_CAPACITY];
-//   int size;
-// } stack_t;
-
-// lexeme pop(stack_t *stack);
-// lexeme peek(stack_t *stack);
-// void push(stack_t *stack, lexeme *lex);
-// void create_stack(stack_t *stack);
-// int size(stack_t *stack);
 
 #endif  // CALCULATE_H
