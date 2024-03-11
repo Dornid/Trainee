@@ -24,4 +24,4 @@ My modest portfolio
 7. Sber, VTB, Roiffaizen, MTS, TELE2, ...
 
 
-![Custom Calculator](/miscoverview.gif)
+![Custom Calculator](misc/images/overview.gif)
