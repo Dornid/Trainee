@@ -22,3 +22,6 @@ My modest portfolio
 5. Postgres profesions* cv
 6. RosAtom cv and jobs check
 7. Sber, VTB, Roiffaizen, MTS, TELE2, ...
+
+
+![Custom Calculator](/miscoverview.gif)
