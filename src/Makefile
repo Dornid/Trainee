@@ -47,17 +47,16 @@ gcov_report: install
 	open ./build/CatReport/index.html		
 
 dvi:
-	echo If make fails to open the file, it means, Make cannot open PDF files on your system. You can open ../docs/index.pdf manually in your favourite PDF viewer instead. Also, there is a markdown index.md analogue.
-	open index.pdf
+	open ../README.md
 
 dist: uninstall
-	rm -fr dist-idaliaka-smartcalc.tar.gz
-	tar -czf dist-idaliaka-smartcalc.tar.gz * 
+	rm -fr *.tar.gz
+	tar -czf dist-customcalc.tar.gz * 
 
 uninstall:
 	rm -rf build
 
 clean: uninstall
 	rm -rf SmartCalc test __pycache__ ./View/__pycache__ Meow.info CatReport a.out 
-	rm -fr dist-idaliaka-smartcalc.tar.gz custom_temporaty_venv 
-	rm -fr *ui.py ./View/*ui.py ./View/ui/*ui.py
+	rm -fr *.tar.gz custom_temporaty_venv 
+	rm -fr *ui.py ./View/*ui.py ./View/ui/*ui.py ./View/ui_form.h
