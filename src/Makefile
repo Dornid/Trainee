@@ -1,7 +1,7 @@
 VENV_NAME = CustomTemporatyVenv
 MAIN_PYTHON = main.py
 
-CC = gcc
+CPP = g++
 LIBS_CHECK = $(shell pkg-config --cflags --libs check) 
 C_FILE_TESTS = TestingFiles/testing_src.c TestingFiles/testing_header.h
 SHARED_LIB_NAME = calculate
@@ -19,8 +19,9 @@ install: uninstall
 		. ./$(VENV_NAME)/bin/activate; \
 		pip3 install pyside6; \
 		pip3 install pyqtgraph; \
+		pip3 install pybind11; \
 		cp ../Model ../Controller ../View ../TestingFiles ../$(MAIN_PYTHON) . -r; \
-		gcc -Wall -fPIC -shared ./Model/*.c ./Model/*.h -o ./Model/lib$(SHARED_LIB_NAME).so; \
+		g++ -Wall -fPIC -shared ./Model/*.cpp ./Model/*.hpp -o ./Model/lib$(SHARED_LIB_NAME).so `python3 -m pybind11 --includes`; \
 		pyside6-uic ./View/ui/form.ui -o ./View/ui/form_ui.py; \
 		pyside6-uic ./View/ui/form_plot.ui -o ./View/ui/form_plot_ui.py; \
 		pyside6-uic ./View/ui/credit_calc.ui -o ./View/ui/credit_calc_ui.py; \
@@ -34,13 +35,13 @@ start_calculator:
 
 test: install
 	cd build/TestingFiles; \
-		$(CC) *.c *.h -Wl,-rpath=$(PATH_BUILD)/Model -o test $(LIBS_CHECK) -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME); \
+		$(CPP) *.c *.h -Wl,-rpath=$(PATH_BUILD)/Model -o test $(LIBS_CHECK) -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME); \
 		./test
 
 gcov_report: install
 	cd build/TestingFiles; \
-		$(CC) -c *.c *.h ../Model/*.c ../Model/*.h $(CFLAGS_GCOV); \
-		$(CC) *.o -o test_gcov $(LIBS_CHECK) -lgcov; \
+		$(CPP) -c *.c *.h ../Model/*.c ../Model/*.h $(CFLAGS_GCOV); \
+		$(CPP) *.o -o test_gcov $(LIBS_CHECK) -lgcov; \
 		./test_gcov 
 	lcov --directory ./build/ --capture --output ./build/Meow.info
 	genhtml ./build/Meow.info --output ./build/CatReport
