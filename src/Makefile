@@ -35,7 +35,9 @@ start_calculator:
 
 test: install
 	cd build/TestingFiles; \
-		$(CPP) *.c *.h -Wl,-rpath=$(PATH_BUILD)/Model -o test $(LIBS_CHECK) -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME); \
+		. ../$(VENV_NAME)/bin/activate; \
+		$(CPP) *.cpp *.hpp -Wl,-rpath=$(PATH_BUILD)/Model -o test  -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME) -lpthread -lgtest `python3 -m pybind11 --includes`; \
+		../deactivate; \
 		./test
 
 gcov_report: install

@@ -293,49 +293,48 @@ bool check_value_div_with_operations(char string[]) {
   return is_value_divided_with_operations;
 }
 
-bool is_valid_input(char string[]) { return true; }
+// bool is_valid_input(char string[]) { return true; }
 
-// bool is_valid_input(char string_argument[]) {
-//   if (strcmp(string_argument, "") == 0) return false;
-//   if (strlen(string_argument) > 255) return false;
-//   for (int i = 0; i < strlen(string_argument); i++) {
-//     if (string_argument[i] == '%') return false;
-//   }
-//   char string[MAXLENGTH] = "";
-//   replace_mod(string_argument, string);
-//   bool is_concating_numbers_in_place = check_concating_numbers(string);
+bool is_valid_input(char string_argument[]) {
+  if (strcmp(string_argument, "") == 0) return false;
+  if (strlen(string_argument) > 255) return false;
+  for (int i = 0; i < strlen(string_argument); i++) {
+    if (string_argument[i] == '%') return false;
+  }
+  char string[MAXLENGTH] = "";
+  replace_mod(string_argument, string);
+  bool is_concating_numbers_in_place = check_concating_numbers(string);
 
-//   bool is_one_dot_per_num = check_one_dot_per_num(string);
-//   delete_spaces(string);
-//   bool is_value_divided_with_operations =
-//       check_value_div_with_operations(string);
-//   int cnt_x_or_vals = 0;
-//   for (int i = 0; i < strlen(string); i++) {
-//     cnt_x_or_vals += isdigit(string[i]) or string[i] == 'x';
-//   }
-//   bool at_least_one_val = cnt_x_or_vals > 0;
-//   bool is_trash_symbols_in_place = check_trash(string);
-//   bool is_braces_devided_with_operations_or_funcs =
-//       check_braces_divided(string);
-//   const int length = strlen(string);
-//   for (int i = 0; i < length; i++) {
-//     string[i] = tolower(string[i]);
-//   }
-//   bool is_braces_in_place = check_braces_in_place(string);
-//   bool is_x_in_place = check_x_in_place(string);
-//   bool is_operation_in_place = check_operations_in_place(string);
-//   bool is_functions_in_place = check_functions_in_place(string);
-//   bool is_dots_in_place = check_dots_in_place(string);
-//   bool is_leading_zeros_in_place = check_leading_zeroes(string);
-//   return is_braces_in_place and is_dots_in_place and is_functions_in_place
-//   and
-//          is_x_in_place and is_operation_in_place and
-//          is_leading_zeros_in_place and is_value_divided_with_operations and
-//          is_trash_symbols_in_place and
-//          is_braces_devided_with_operations_or_funcs and
-//          is_concating_numbers_in_place and is_one_dot_per_num and
-//          at_least_one_val;
-// }
+  bool is_one_dot_per_num = check_one_dot_per_num(string);
+  delete_spaces(string);
+  bool is_value_divided_with_operations =
+      check_value_div_with_operations(string);
+  int cnt_x_or_vals = 0;
+  for (int i = 0; i < strlen(string); i++) {
+    cnt_x_or_vals += isdigit(string[i]) or string[i] == 'x';
+  }
+  bool at_least_one_val = cnt_x_or_vals > 0;
+  bool is_trash_symbols_in_place = check_trash(string);
+  bool is_braces_devided_with_operations_or_funcs =
+      check_braces_divided(string);
+  const int length = strlen(string);
+  for (int i = 0; i < length; i++) {
+    string[i] = tolower(string[i]);
+  }
+  bool is_braces_in_place = check_braces_in_place(string);
+  bool is_x_in_place = check_x_in_place(string);
+  bool is_operation_in_place = check_operations_in_place(string);
+  bool is_functions_in_place = check_functions_in_place(string);
+  bool is_dots_in_place = check_dots_in_place(string);
+  bool is_leading_zeros_in_place = check_leading_zeroes(string);
+  return is_braces_in_place and is_dots_in_place and is_functions_in_place and
+         is_x_in_place and is_operation_in_place and
+         is_leading_zeros_in_place and is_value_divided_with_operations and
+         is_trash_symbols_in_place and
+         is_braces_devided_with_operations_or_funcs and
+         is_concating_numbers_in_place and is_one_dot_per_num and
+         at_least_one_val;
+}
 
 void build_num_lex(char string[], int *i, long double x_value, lexeme *lex) {
   const int length = strlen(string);
@@ -571,4 +570,9 @@ long double calculate(char string_argument[], long double x_value) {
   dijkstra(lexes, &lexes_size, polish_lexs, &polish_size);
 
   return polish_calc(polish_lexs, polish_size);
+}
+
+PYBIND11_MODULE(libcalculate, m) {
+  m.def("is_valid_input", &is_valid_input);
+  m.def("calculate", &calculate);
 }

@@ -3,6 +3,8 @@ from ctypes import *
 import datetime
 from calendar import monthrange
 
+import Model.libcalculate as shared_fun
+
 
 def day_in_this_year(year: int) -> int:
     days = 0
@@ -44,9 +46,9 @@ def float_from_str(var_str: str) -> float:
 
 
 def is_valid_inputs(expression: str, x_input: str) -> bool:
-    so_file = str(Path(__file__).absolute())
-    so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
-    shared_fun = CDLL(so_file)
+    # so_file = str(Path(__file__).absolute())
+    # so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
+    # shared_fun = CDLL(so_file)
 
     arg_to_pass = expression.encode('ascii')
     is_valid = shared_fun.is_valid_input(arg_to_pass)
@@ -59,11 +61,12 @@ def calculate_expr_at(expr: str, x: float) -> float:
     if not is_valid_inputs(expr, str(x)):
         raise Exception("Calculation on invalid string!")
 
-    so_file = str(Path(__file__).absolute())
-    so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
-    shared_fun = CDLL(so_file)
-    shared_fun.calculate.argtypes = [c_char_p, c_longdouble]
-    shared_fun.calculate.restype = c_longdouble  # c_longdouble  # c_double
+    # so_file = str(Path(__file__).absolute())
+    # so_file = so_file[:so_file.rfind('/') + 1] + "/libcalculate.so"
+    # shared_fun = CDLL(so_file)
+
+    # shared_fun.calculate.argtypes = [c_char_p, c_longdouble]
+    # shared_fun.calculate.restype = c_longdouble  # c_longdouble  # c_double
 
     arg_to_pass = expr.encode('ascii')
     return shared_fun.calculate(arg_to_pass, x)
