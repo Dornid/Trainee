@@ -204,280 +204,265 @@ TEST(CoreTests, check_input) {
   ASSERT_EQ(1, err);
 }
 
-// TEST(CoreTests, calculator) {
-//   double answer = 0.0;
-//   double res_original = 0.0;
-//   int error = 0;
+TEST(CoreTests, calculator) {
+  double answer = 0.0;
+  double res_original = 0.0;
+  int error = 0;
 
-//   char input[300] = "(-1)*cos(1)+3";
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = -cos(1) + 3;
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  char input[300] = "(-1)*cos(1)+3";
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = -cos(1) + 3;
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   char input_2[] = "-0,1+0,2";
-//   answer = 0.0;
-//   error = is_valid_input(input_2);
-//   if (error == 1) answer = calculate(input_2, 0);
-//   res_original = -0.1 + 0.2;
-//   ASSERT_EQ(1, error);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
+  char input_2[] = "-0,1+0,2";
+  answer = 0.0;
+  error = is_valid_input(input_2);
+  if (error == 1) answer = calculate(input_2, 0);
+  res_original = -0.1 + 0.2;
+  ASSERT_EQ(1, error);
+  ASSERT_NEAR(res_original, answer, 1e-8);
 
-//   strcpy(
-//       input,
-//       "15.4121212121212/(7.1-(1.1+1.1))*3-(2+(1+1))*15.4/"
-//       "(7-(200.1+1))*3-(2+(1+1))*(15.0/"
-//       "(7-(1.1+1))*3.4-(2+(1+1))+15.23456789101112/(7.5-(1+1))*3.5-(2+(1+1)))");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = 15.4121212121212 / (7.1 - (1.1 + 1.1)) * 3 -
-//                  (2 + (1 + 1)) * 15.4 / (7 - (200.1 + 1)) * 3 -
-//                  (2 + (1 + 1)) * (15.0 / (7 - (1.1 + 1)) * 3.4 - (2 + (1 +
-//                  1)) +
-//                                   15.23456789101112 / (7.5 - (1 + 1)) * 3.5 -
-//                                   (2 + (1 + 1)));
-//   ASSERT_EQ(1, error);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
+  strcpy(
+      input,
+      "15.4121212121212/(7.1-(1.1+1.1))*3-(2+(1+1))*15.4/"
+      "(7-(200.1+1))*3-(2+(1+1))*(15.0/"
+      "(7-(1.1+1))*3.4-(2+(1+1))+15.23456789101112/(7.5-(1+1))*3.5-(2+(1+1)))");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = 15.4121212121212 / (7.1 - (1.1 + 1.1)) * 3 -
+                 (2 + (1 + 1)) * 15.4 / (7 - (200.1 + 1)) * 3 -
+                 (2 + (1 + 1)) * (15.0 / (7 - (1.1 + 1)) * 3.4 - (2 + (1 + 1)) +
+                                  15.23456789101112 / (7.5 - (1 + 1)) * 3.5 -
+                                  (2 + (1 + 1)));
+  ASSERT_EQ(1, error);
+  ASSERT_NEAR(res_original, answer, 1e-8);
 
-//   strcpy(input, "2^(2.1+1)-11mod2");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = pow(2, (2.1 + 1)) - fmod(11, 2);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "2^(2.1+1)-11mod2");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = pow(2, (2.1 + 1)) - fmod(11, 2);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "sin(0.5)-cos(1)+tan(0.5)+acos(0.5)-asin(1)-atan(1)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = sin(0.5) - cos(1) + tan(0.5) + acos(0.5) - asin(1) -
-//   atan(1); ASSERT_EQ(1, error); ASSERT_NEAR(res_original, answer, 1e-8);
+  strcpy(input, "sin(0.5)-cos(1)+tan(0.5)+acos(0.5)-asin(1)-atan(1)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = sin(0.5) - cos(1) + tan(0.5) + acos(0.5) - asin(1) - atan(1);
+  ASSERT_EQ(1, error);
+  ASSERT_NEAR(res_original, answer, 1e-8);
 
-//   strcpy(input, "sqrt(4.123456789)+3-1.12");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = sqrt(4.123456789) + 3 - 1.12;
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "sqrt(4.123456789)+3-1.12");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = sqrt(4.123456789) + 3 - 1.12;
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "log(+10.2)-ln(10.2)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = log10(10.2) - log(10.2);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "log(+10.2)-ln(10.2)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = log10(10.2) - log(10.2);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "11+(-2)^5");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = 11 + pow(-2, 5);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "11+(-2)^5");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = 11 + pow(-2, 5);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "log(10.2)+ln(10.2)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = log10(10.2) + log(10.2);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "log(10.2)+ln(10.2)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = log10(10.2) + log(10.2);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "sqrt(+4+1)+(-3+1)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = sqrt(4 + 1) + (-3 + 1);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "sqrt(+4+1)+(-3+1)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = sqrt(4 + 1) + (-3 + 1);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "sqrt(3+1)-(-3+1)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = sqrt(3 + 1) - (-3 + 1);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "sqrt(3+1)-(-3+1)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = sqrt(3 + 1) - (-3 + 1);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "+1.1122-(-1)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   res_original = +1.1122 - (-1);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "+1.1122-(-1)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  res_original = +1.1122 - (-1);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "2^(2.1+1)+(");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   ASSERT_EQ(0, error);
+  strcpy(input, "2^(2.1+1)+(");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  ASSERT_EQ(0, error);
 
-//   strcpy(input, "2^(2.1+1)+()");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   ASSERT_EQ(0, error);
+  strcpy(input, "2^(2.1+1)+()");
+  answer = 0.0;
+  error = is_valid_input(input);
+  ASSERT_EQ(0, error);
 
-//   strcpy(input, "2^(2.1+1)+2-(3+1)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 0);
-//   ASSERT_EQ(1, error);
+  strcpy(input, "2^(2.1+1)+2-(3+1)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 0);
+  ASSERT_EQ(1, error);
 
-//   strcpy(input, "sqrt(+4*x+1)+(-3+1)");
-//   answer = 0.0;
-//   error = is_valid_input(input);
-//   if (error == 1) answer = calculate(input, 5.8);
-//   res_original = sqrt(4 * 5.8 + 1) + (-3 + 1);
-//   ASSERT_EQ(1, error);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-// }
+  strcpy(input, "sqrt(+4*x+1)+(-3+1)");
+  answer = 0.0;
+  error = is_valid_input(input);
+  if (error == 1) answer = calculate(input, 5.8);
+  res_original = sqrt(4 * 5.8 + 1) + (-3 + 1);
+  ASSERT_EQ(1, error);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+}
 
-// TEST(CoreTests, calculation_with_unary_minus) {
-//   double answer = 0.0;
-//   double res_original = 0.0;
-//   int error2 = 0;
-//   char input[] = "-cos(1)+3";
-//   answer = 0.0;
-//   error2 = is_valid_input(input);
-//   if (error2 == 1) answer = calculate(input, 0);
-//   res_original = -cos(1) + 3;
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+TEST(CoreTests, calculation_with_unary_minus) {
+  double answer = 0.0;
+  double res_original = 0.0;
+  int error2 = 0;
+  char input[] = "-cos(1)+3";
+  answer = 0.0;
+  error2 = is_valid_input(input);
+  if (error2 == 1) answer = calculate(input, 0);
+  res_original = -cos(1) + 3;
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input2[] = "-sin(1)+3+(-log(8)+9)";
-//   answer = 0.0;
-//   error2 = is_valid_input(input2);
-//   if (error2 == 1) answer = calculate(input2, 0);
-//   res_original = -sin(1) + 3 + (-log10(8) + 9);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+  char input2[] = "-sin(1)+3+(-log(8)+9)";
+  answer = 0.0;
+  error2 = is_valid_input(input2);
+  if (error2 == 1) answer = calculate(input2, 0);
+  res_original = -sin(1) + 3 + (-log10(8) + 9);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input3[] = "-sin(1)+3+(-log(8)+9)";
-//   answer = 0.0;
-//   error2 = is_valid_input(input3);
-//   if (error2 == 1) answer = calculate(input3, 0);
-//   res_original = -sin(1) + 3 + (-log10(8) + 9);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+  char input3[] = "-sin(1)+3+(-log(8)+9)";
+  answer = 0.0;
+  error2 = is_valid_input(input3);
+  if (error2 == 1) answer = calculate(input3, 0);
+  res_original = -sin(1) + 3 + (-log10(8) + 9);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input4[] = "-sqrt(-9.9)-sin(3)";
-//   answer = 0.0;
-//   error2 = is_valid_input(input4);
-//   if (error2 == 1) answer = calculate(input4, 0);
-//   res_original = -sqrt(-9.9) - sin(3);
-//   // ck_assert_msg(res_original != res_original, "Error!\n");
-//   // ck_assert_msg(answer != answer, "Error!\n");
-//   ASSERT_EQ(1, error2);
+  char input4[] = "-sqrt(-9.9)-sin(3)";
+  answer = 0.0;
+  error2 = is_valid_input(input4);
+  if (error2 == 1) answer = calculate(input4, 0);
+  res_original = -sqrt(-9.9) - sin(3);
+  ASSERT_EQ(1, error2);
 
-//   char input5[] = "-x+(-sin(3)-ln(99))";
-//   answer = 0.0;
-//   error2 = is_valid_input(input5);
-//   if (error2 == 1) answer = calculate(input5, +5.6);
-//   res_original = -5.6 + (-sin(3) - log(99));
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+  char input5[] = "-x+(-sin(3)-ln(99))";
+  answer = 0.0;
+  error2 = is_valid_input(input5);
+  if (error2 == 1) answer = calculate(input5, +5.6);
+  res_original = -5.6 + (-sin(3) - log(99));
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input6[] = "-6*3+9*x";
-//   answer = 0.0;
-//   error2 = is_valid_input(input6);
-//   if (error2 == 1) answer = calculate(input6, (-3));
-//   res_original = -6 * 3 + 9 * (-3);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+  char input6[] = "-6*3+9*x";
+  answer = 0.0;
+  error2 = is_valid_input(input6);
+  if (error2 == 1) answer = calculate(input6, (-3));
+  res_original = -6 * 3 + 9 * (-3);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input7[] = "-x";
-//   answer = 0.0;
-//   error2 = is_valid_input(input7);
-//   if (error2 == 1) answer = calculate(input7, -3);
-//   res_original = 3;
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
-// }
+  char input7[] = "-x";
+  answer = 0.0;
+  error2 = is_valid_input(input7);
+  if (error2 == 1) answer = calculate(input7, -3);
+  res_original = 3;
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
+}
 
-// TEST(CoreTests, calculation_with_unary_plus) {
-//   double answer = 0.0;
-//   double res_original = 0.0;
-//   int error2 = 0;
-//   char input[] = "+cos(1)+3";
-//   answer = 0.0;
-//   error2 = is_valid_input(input);
-//   if (error2 == 1) answer = calculate(input, 0);
-//   res_original = cos(1) + 3;
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+TEST(CoreTests, calculation_with_unary_plus) {
+  double answer = 0.0;
+  double res_original = 0.0;
+  int error2 = 0;
+  char input[] = "+cos(1)+3";
+  answer = 0.0;
+  error2 = is_valid_input(input);
+  if (error2 == 1) answer = calculate(input, 0);
+  res_original = cos(1) + 3;
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input2[] = "+sin(1)+3+(+log(8)+9)";
-//   answer = 0.0;
-//   error2 = is_valid_input(input2);
-//   if (error2 == 1) answer = calculate(input2, 0);
-//   res_original = sin(1) + 3 + (log10(8) + 9);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+  char input2[] = "+sin(1)+3+(+log(8)+9)";
+  answer = 0.0;
+  error2 = is_valid_input(input2);
+  if (error2 == 1) answer = calculate(input2, 0);
+  res_original = sin(1) + 3 + (log10(8) + 9);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input3[] = "+sin(1)+3+(+log(8)+9)";
-//   answer = 0.0;
-//   error2 = is_valid_input(input3);
-//   if (error2 == 1) answer = calculate(input3, 0);
-//   res_original = sin(1) + 3 + (log10(8) + 9);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+  char input3[] = "+sin(1)+3+(+log(8)+9)";
+  answer = 0.0;
+  error2 = is_valid_input(input3);
+  if (error2 == 1) answer = calculate(input3, 0);
+  res_original = sin(1) + 3 + (log10(8) + 9);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input4[] = "+sqrt(+9.9)-sin(3)";
-//   answer = 0.0;
-//   error2 = is_valid_input(input4);
-//   if (error2 == 1) answer = calculate(input4, 0);
-//   res_original = sqrt(9.9) - sin(3);
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+  char input4[] = "+sqrt(+9.9)-sin(3)";
+  answer = 0.0;
+  error2 = is_valid_input(input4);
+  if (error2 == 1) answer = calculate(input4, 0);
+  res_original = sqrt(9.9) - sin(3);
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input5[] = "+x+(+sin(3)-ln(99))";
-//   answer = 0.0;
-//   error2 = is_valid_input(input5);
-//   if (error2 == 1) answer = calculate(input5, 5.6);
-//   res_original = 5.6 + (sin(3) - log(99));
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
-// }
+  char input5[] = "+x+(+sin(3)-ln(99))";
+  answer = 0.0;
+  error2 = is_valid_input(input5);
+  if (error2 == 1) answer = calculate(input5, 5.6);
+  res_original = 5.6 + (sin(3) - log(99));
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
+}
 
-// TEST(CoreTests, hard_test) {
-//   double answer = 0.0;
-//   double res_original = 0.0;
-//   int error2 = 0;
-//   char input[] = "2^(3)^(2)";
-//   answer = 0.0;
-//   error2 = is_valid_input(input);
-//   if (error2 == 1) answer = calculate(input, 0);
-//   res_original = pow(2, pow(3, 2));
-//   ASSERT_NEAR(res_original, answer, 1e-8);
-//   ASSERT_EQ(1, error2);
+TEST(CoreTests, hard_test) {
+  double answer = 0.0;
+  double res_original = 0.0;
+  int error2 = 0;
+  char input[] = "2^(3)^(2)";
+  answer = 0.0;
+  error2 = is_valid_input(input);
+  if (error2 == 1) answer = calculate(input, 0);
+  res_original = pow(2, pow(3, 2));
+  ASSERT_NEAR(res_original, answer, 1e-8);
+  ASSERT_EQ(1, error2);
 
-//   char input1[] = "2^(3)^(2)+)(";
-//   answer = 0.0;
-//   error2 = is_valid_input(input1);
-//   if (error2 == 1) answer = calculate(input1, 0);
-//   ASSERT_EQ(0, error2);
-// }
+  char input1[] = "2^(3)^(2)+)(";
+  answer = 0.0;
+  error2 = is_valid_input(input1);
+  if (error2 == 1) answer = calculate(input1, 0);
+  ASSERT_EQ(0, error2);
+}
 
-// Suite *s21_SmartCalc_tests_create() {
-//   Suite *s;
-//   TCase *tc_core;
-//   s = suite_create("suite_s21_SmartCalc");
-//   tc_core = tcase_create("tcase_tests");
-//   tcase_add_test(tc_core, check_input);
-//   tcase_add_test(tc_core, calculator);
-//   tcase_add_test(tc_core, calculation_with_unary_minus);
-//   tcase_add_test(tc_core, calculation_with_unary_plus);
-//   tcase_add_test(tc_core, hard_test);
-//   suite_add_tcase(s, tc_core);
-//   return s;
-// }
 int main() {
   ::testing::InitGoogleTest();
   return RUN_ALL_TESTS();

@@ -36,7 +36,7 @@ start_calculator:
 test: install
 	cd build/TestingFiles; \
 		. ../$(VENV_NAME)/bin/activate; \
-		$(CPP) *.cpp *.hpp -Wl,-rpath=$(PATH_BUILD)/Model -o test  -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME) -lpthread -lgtest `python3 -m pybind11 --includes`; \
+		$(CPP) *.cpp *.hpp -Wl,-rpath=$(PATH_BUILD)/Model -o test  -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME) -lpthread -lgtest `python3 -m pybind11 --includes` -lpython3.10; \
 		../deactivate; \
 		./test
 
