@@ -1,6 +1,8 @@
+#include "../Model/calculator_model.cpp"
 #include "testing_header.hpp"
 
 TEST(CoreTests, check_input) {
+  CalculatorModel calcModel;
   int err = 0;
   char string[] = "1+2+3-log(6)*sqrt(10)+ln(10)";
   double answer = 0.0;

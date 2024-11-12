@@ -3,8 +3,8 @@
 #define MAXLENGTH 300
 
 // func_literal should contain '(' for good working!
-bool check_function_literal(char string[], int start_index,
-                            char func_literal[]) {
+bool CalculatorModel::check_function_literal(char string[], int start_index,
+                                             char func_literal[]) {
   bool is_ok = true;
   if (strlen(func_literal) + 1 + start_index >= strlen(string)) {
     is_ok = false;
@@ -17,18 +17,20 @@ bool check_function_literal(char string[], int start_index,
   return is_ok;
 }
 
-bool is_unary_character_operator(char c) { return c == '+' or c == '-'; }
+bool CalculatorModel::is_unary_character_operator(char c) {
+  return c == '+' or c == '-';
+}
 
-bool is_binary_character_operation(char c) {
+bool CalculatorModel::is_binary_character_operation(char c) {
   return c == '*' or c == '/' or c == '^' or c == '%';
 }
 
-bool is_start_of_func_literal(char c) {
+bool CalculatorModel::is_start_of_func_literal(char c) {
   return c == 'c' or c == 's' or c == 't' or c == 'a' or c == 'l';
 }
 
 // Check whether string is valid beforehand!
-void delete_spaces(char string[]) {
+void CalculatorModel::delete_spaces(char string[]) {
   char buff_str[MAXLENGTH] = "";
   int next_index = 0;
   for (int i = 0; i < strlen(string); i++) {
@@ -40,7 +42,7 @@ void delete_spaces(char string[]) {
   strcpy(string, buff_str);
 }
 
-void replace_mod(char from_str[], char to_str[]) {
+void CalculatorModel::replace_mod(char from_str[], char to_str[]) {
   char buff_str[300] = "";
   int next_index = 0;
   int i = 0;
@@ -63,7 +65,7 @@ void replace_mod(char from_str[], char to_str[]) {
   strcpy(to_str, buff_str);
 }
 
-long double get_num_value(char string[]) {
+long double CalculatorModel::get_num_value(char string[]) {
   long double res = 0;
   int i = 0;
   while (isdigit(string[i])) {
@@ -83,7 +85,7 @@ long double get_num_value(char string[]) {
   return res;
 }
 
-bool check_leading_zeroes(char string[]) {
+bool CalculatorModel::check_leading_zeroes(char string[]) {
   const int length = strlen(string);
   bool is_leading_zeros_in_place = true;
   bool has_non_zero_before = false;
@@ -102,7 +104,7 @@ bool check_leading_zeroes(char string[]) {
   return is_leading_zeros_in_place;
 }
 
-bool check_dots_in_place(char string[]) {
+bool CalculatorModel::check_dots_in_place(char string[]) {
   bool is_dots_in_place = true;
   for (int i = 0; i < strlen(string); i++) {
     char c = tolower(string[i]);
@@ -116,7 +118,7 @@ bool check_dots_in_place(char string[]) {
   return is_dots_in_place;
 }
 
-bool check_functions_in_place(char string[]) {
+bool CalculatorModel::check_functions_in_place(char string[]) {
   bool is_functions_in_place = true;
   for (int i = 0; i < strlen(string); i++) {
     char c = tolower(string[i]);
@@ -142,7 +144,7 @@ bool check_functions_in_place(char string[]) {
   return is_functions_in_place;
 }
 
-bool check_operations_in_place(char string[]) {
+bool CalculatorModel::check_operations_in_place(char string[]) {
   const int length = strlen(string);
   bool is_operation_in_place = true;
   for (int i = 0; i < length; i++) {
@@ -169,7 +171,7 @@ bool check_operations_in_place(char string[]) {
   return is_operation_in_place;
 }
 
-bool check_x_in_place(char string[]) {
+bool CalculatorModel::check_x_in_place(char string[]) {
   const int length = strlen(string);
   bool is_x_in_place = true;
   for (int i = 0; i < length; i++) {
@@ -187,7 +189,7 @@ bool check_x_in_place(char string[]) {
   return is_x_in_place;
 }
 
-bool check_braces_in_place(char string[]) {
+bool CalculatorModel::check_braces_in_place(char string[]) {
   int braces_cnt = 0;
   const int length = strlen(string);
   bool is_braces_in_place = true;
@@ -208,7 +210,7 @@ bool check_braces_in_place(char string[]) {
   return is_braces_in_place;
 }
 
-bool check_braces_divided(char string[]) {
+bool CalculatorModel::check_braces_divided(char string[]) {
   bool is_braces_devided_with_operations_or_funcs = true;
   for (int i = 1; i < strlen(string); i++) {
     if (string[i] == '(' and string[i - 1] != '(' and
@@ -226,7 +228,7 @@ bool check_braces_divided(char string[]) {
   return is_braces_devided_with_operations_or_funcs;
 }
 
-bool check_concating_numbers(char string[]) {
+bool CalculatorModel::check_concating_numbers(char string[]) {
   bool is_concating_numbers_in_place = true;
   for (int i = 0; i < strlen(string); i++) {
     if (string[i] == ' ') {
@@ -250,7 +252,7 @@ bool check_concating_numbers(char string[]) {
   return is_concating_numbers_in_place;
 }
 
-bool check_trash(char string[]) {
+bool CalculatorModel::check_trash(char string[]) {
   bool is_trash_symbols_in_place = true;
   for (int i = 0; i < strlen(string); i++) {
     if (not isalpha(string[i]) and not isdigit(string[i]) and
@@ -263,7 +265,7 @@ bool check_trash(char string[]) {
   return is_trash_symbols_in_place;
 }
 
-bool check_one_dot_per_num(char string[]) {
+bool CalculatorModel::check_one_dot_per_num(char string[]) {
   bool is_one_dot_per_num = true;
   for (int i = 0; i < strlen(string); i++) {
     if (isdigit(string[i])) {
@@ -282,7 +284,7 @@ bool check_one_dot_per_num(char string[]) {
   return is_one_dot_per_num;
 }
 
-bool check_value_div_with_operations(char string[]) {
+bool CalculatorModel::check_value_div_with_operations(char string[]) {
   bool is_value_divided_with_operations = true;
   for (int i = 1; i < strlen(string); i++) {
     if (isalpha(string[i]) and isdigit(string[i - 1]) or
@@ -295,7 +297,7 @@ bool check_value_div_with_operations(char string[]) {
 
 // bool is_valid_input(char string[]) { return true; }
 
-bool is_valid_input(char string_argument[]) {
+bool CalculatorModel::is_valid_input(char string_argument[]) {
   if (strcmp(string_argument, "") == 0) return false;
   if (strlen(string_argument) > 255) return false;
   for (int i = 0; i < strlen(string_argument); i++) {
@@ -336,7 +338,8 @@ bool is_valid_input(char string_argument[]) {
          at_least_one_val;
 }
 
-void build_num_lex(char string[], int *i, long double x_value, lexeme *lex) {
+void CalculatorModel::build_num_lex(char string[], int *i, long double x_value,
+                                    lexeme *lex) {
   const int length = strlen(string);
   char c = string[*i];
   long double value = 0;
@@ -365,7 +368,7 @@ void build_num_lex(char string[], int *i, long double x_value, lexeme *lex) {
   sprintf(lex->printed, "%Lf", value);
 }
 
-void build_func_lex(char string[], int *i, lexeme *lex) {
+void CalculatorModel::build_func_lex(char string[], int *i, lexeme *lex) {
   lex->priority = PRIORITY_HIGHEST;
   lex->type = FUNC_TYPE;
   int j = 0;
@@ -384,8 +387,8 @@ void build_func_lex(char string[], int *i, lexeme *lex) {
   (*i) += j - 1;
 }
 
-void build_lexemes(char string[], lexeme *out_lexes, int *out_lexes_size,
-                   long double x_value) {
+void CalculatorModel::build_lexemes(char string[], lexeme *out_lexes,
+                                    int *out_lexes_size, long double x_value) {
   const int length = strlen(string);
   lexeme lexes[MAXLENGTH];
   int size_lexes = 0;
@@ -438,8 +441,8 @@ void build_lexemes(char string[], lexeme *out_lexes, int *out_lexes_size,
   }
 }
 
-void dijkstra(lexeme in_lexes[], int *in_size, lexeme out_lexes[],
-              int *out_size) {
+void CalculatorModel::dijkstra(lexeme in_lexes[], int *in_size,
+                               lexeme out_lexes[], int *out_size) {
   lexeme stack[MAXLENGTH];
   int stack_size = 0;
 
@@ -496,7 +499,7 @@ void dijkstra(lexeme in_lexes[], int *in_size, lexeme out_lexes[],
   }
 }
 
-long double polish_calc(lexeme pol_lexs[], int pol_size) {
+long double CalculatorModel::polish_calc(lexeme pol_lexs[], int pol_size) {
   long double nums_stack[MAXLENGTH];
   int stack_size = 0;
   for (int i = 0; i < pol_size; i++) {
@@ -549,7 +552,8 @@ long double polish_calc(lexeme pol_lexs[], int pol_size) {
   return nums_stack[0];
 }
 
-long double calculate(char string_argument[], long double x_value) {
+long double CalculatorModel::calculate(char string_argument[],
+                                       long double x_value) {
   char string_test[MAXLENGTH] = "";
   strcpy(string_test, string_argument);
   if (not is_valid_input(string_test)) {
@@ -573,6 +577,8 @@ long double calculate(char string_argument[], long double x_value) {
 }
 
 PYBIND11_MODULE(libcalculate, m) {
-  m.def("is_valid_input", &is_valid_input);
-  m.def("calculate", &calculate);
+  pybind11::class_<CalculatorModel>(m, "CalculatorModel")
+      .def(pybind11::init())
+      .def("is_valid_input", &is_valid_input);
+  .def("calculate", &calculate);
 }
