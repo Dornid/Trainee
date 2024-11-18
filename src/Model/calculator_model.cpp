@@ -579,6 +579,6 @@ long double CalculatorModel::calculate(char string_argument[],
 PYBIND11_MODULE(libcalculate, m) {
   pybind11::class_<CalculatorModel>(m, "CalculatorModel")
       .def(pybind11::init())
-      .def("is_valid_input", &is_valid_input);
-  .def("calculate", &calculate);
+      .def("is_valid_input", &CalculatorModel::is_valid_input)
+      .def("calculate", &CalculatorModel::calculate);
 }
