@@ -28,6 +28,7 @@
 
 class CalculatorModel {
  private:
+  char *string_data = nullptr;
   typedef struct {
     long double value;
     int priority;
@@ -35,37 +36,36 @@ class CalculatorModel {
     int type;
     char printed[10];
   } lexeme;
-  bool check_function_literal(char string[], int start_index,
-                              char func_literal[]);
+  bool check_function_literal(int start_index, char func_literal[]);
   bool is_unary_character_operator(char c);
   bool is_binary_character_operation(char c);
   bool is_start_of_func_literal(char c);
-  void delete_spaces(char string[]);
-  void replace_mod(char from_str[], char to_str[]);
-  long double get_num_value(char string[]);
-  bool check_leading_zeroes(char string[]);
-  bool check_dots_in_place(char string[]);
-  bool check_functions_in_place(char string[]);
-  bool check_operations_in_place(char string[]);
-  bool check_x_in_place(char string[]);
-  bool check_braces_in_place(char string[]);
-  bool check_braces_divided(char string[]);
-  bool check_concating_numbers(char string[]);
-  bool check_trash(char string[]);
-  bool check_value_div_with_operations(char string[]);
-  bool check_one_dot_per_num(char string[]);
-  bool check_x_in_place(char string[], int start_index, int end_index);
+  void delete_spaces();
+  void replace_mod(char to_str[]);
+  long double get_num_value(int start_index);
+  bool check_leading_zeroes();
+  bool check_dots_in_place();
+  bool check_functions_in_place();
+  bool check_operations_in_place();
+  bool check_x_in_place();
+  bool check_braces_in_place();
+  bool check_braces_divided();
+  bool check_concating_numbers();
+  bool check_trash();
+  bool check_value_div_with_operations();
+  bool check_one_dot_per_num();
+  bool check_x_in_place(int start_index, int end_index);
   long double polish_calc(lexeme pol_lexs[], int pol_size);
-  void build_num_lex(char string[], int *i, long double x_value, lexeme *lex);
-  void build_lexemes(char string[], lexeme lexes[], int *lexes_size,
-                     long double x_value);
+  void build_num_lex(int *i, long double x_value, lexeme *lex);
+  void build_lexemes(lexeme lexes[], int *lexes_size, long double x_value);
   void dijkstra(lexeme lexes[], int *lexes_size, lexeme polish_lexs[],
                 int *polish_size);
-  void build_func_lex(char string[], int *i, lexeme *lex);
+  void build_func_lex(int *i, lexeme *lex);
 
  public:
-  long double calculate(char string[], long double x_value);
-  bool is_valid_input(char string[]);
+  long double calculate(long double x_value);
+  bool is_valid_input();
+  void set_data(char string_data[]);
   // calculator_model(/* args */);
   // ~calculator_model();
 };

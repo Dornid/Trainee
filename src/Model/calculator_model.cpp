@@ -3,14 +3,14 @@
 #define MAXLENGTH 300
 
 // func_literal should contain '(' for good working!
-bool CalculatorModel::check_function_literal(char string[], int start_index,
+bool CalculatorModel::check_function_literal(int start_index,
                                              char func_literal[]) {
   bool is_ok = true;
-  if (strlen(func_literal) + 1 + start_index >= strlen(string)) {
+  if (strlen(func_literal) + 1 + start_index >= strlen(string_data)) {
     is_ok = false;
   }
   for (int i = 0; is_ok and i < strlen(func_literal); i++) {
-    if (string[start_index + i] != func_literal[i]) {
+    if (string_data[start_index + i] != func_literal[i]) {
       is_ok = false;
     }
   }
@@ -30,54 +30,54 @@ bool CalculatorModel::is_start_of_func_literal(char c) {
 }
 
 // Check whether string is valid beforehand!
-void CalculatorModel::delete_spaces(char string[]) {
+void CalculatorModel::delete_spaces() {
   char buff_str[MAXLENGTH] = "";
   int next_index = 0;
-  for (int i = 0; i < strlen(string); i++) {
-    if (string[i] != ' ') {
-      buff_str[next_index] = string[i];
+  for (int i = 0; i < strlen(string_data); i++) {
+    if (string_data[i] != ' ') {
+      buff_str[next_index] = string_data[i];
       next_index++;
     }
   }
-  strcpy(string, buff_str);
+  strcpy(string_data, buff_str);
 }
 
-void CalculatorModel::replace_mod(char from_str[], char to_str[]) {
+void CalculatorModel::replace_mod(char to_str[]) {
   char buff_str[300] = "";
   int next_index = 0;
   int i = 0;
-  for (; i < strlen(from_str) - 2; i++) {
-    if (from_str[i] == 'm' and from_str[i + 1] == 'o' and
-        from_str[i + 2] == 'd') {
+  for (; i < strlen(string_data) - 2; i++) {
+    if (string_data[i] == 'm' and string_data[i + 1] == 'o' and
+        string_data[i + 2] == 'd') {
       buff_str[next_index] = '%';
       next_index++;
       i += 2;
     } else {
-      buff_str[next_index] = from_str[i];
+      buff_str[next_index] = string_data[i];
       next_index++;
     }
   }
-  while (i < strlen(from_str)) {
-    buff_str[next_index] = from_str[i];
+  while (i < strlen(string_data)) {
+    buff_str[next_index] = string_data[i];
     next_index++;
     i++;
   }
   strcpy(to_str, buff_str);
 }
 
-long double CalculatorModel::get_num_value(char string[]) {
+long double CalculatorModel::get_num_value(int start_index) {
   long double res = 0;
-  int i = 0;
-  while (isdigit(string[i])) {
+  int i = start_index;
+  while (isdigit(string_data[i])) {
     res *= 10;
-    res += string[i] - '0';
+    res += string_data[i] - '0';
     i++;
   }
-  if (string[i] == '.' or string[i] == ',') {
+  if (string_data[i] == '.' or string_data[i] == ',') {
     int j = 1;
     i++;
-    while (isdigit(string[i])) {
-      res += (string[i] - '0') / pow(10, j);
+    while (isdigit(string_data[i])) {
+      res += (string_data[i] - '0') / pow(10, j);
       j++;
       i++;
     }
@@ -85,32 +85,32 @@ long double CalculatorModel::get_num_value(char string[]) {
   return res;
 }
 
-bool CalculatorModel::check_leading_zeroes(char string[]) {
-  const int length = strlen(string);
+bool CalculatorModel::check_leading_zeroes() {
+  const int length = strlen(string_data);
   bool is_leading_zeros_in_place = true;
   bool has_non_zero_before = false;
   for (int i = 0; i < length; i++) {
-    char c = string[i];
+    char c = string_data[i];
     if (isdigit(c) and c != '0' or c == '.' or c == ',') {
       has_non_zero_before = true;
     } else if (not isdigit(c)) {
       has_non_zero_before = false;
     } else if (c == '0' and not has_non_zero_before and
-               not((i - 1 < 0 or not isdigit(string[i - 1])) and
-                   (i + 1 >= length or not isdigit(string[i + 1])))) {
+               not((i - 1 < 0 or not isdigit(string_data[i - 1])) and
+                   (i + 1 >= length or not isdigit(string_data[i + 1])))) {
       is_leading_zeros_in_place = false;
     }
   }
   return is_leading_zeros_in_place;
 }
 
-bool CalculatorModel::check_dots_in_place(char string[]) {
+bool CalculatorModel::check_dots_in_place() {
   bool is_dots_in_place = true;
-  for (int i = 0; i < strlen(string); i++) {
-    char c = tolower(string[i]);
+  for (int i = 0; i < strlen(string_data); i++) {
+    char c = tolower(string_data[i]);
     if (c == '.' or c == ',') {  // c == ',' or
-      if (not(i + 1 < strlen(string) and isdigit(string[i + 1]) and
-              i - 1 >= 0 and isdigit(string[i - 1]))) {
+      if (not(i + 1 < strlen(string_data) and isdigit(string_data[i + 1]) and
+              i - 1 >= 0 and isdigit(string_data[i - 1]))) {
         is_dots_in_place = false;
       }
     }
@@ -118,10 +118,10 @@ bool CalculatorModel::check_dots_in_place(char string[]) {
   return is_dots_in_place;
 }
 
-bool CalculatorModel::check_functions_in_place(char string[]) {
+bool CalculatorModel::check_functions_in_place() {
   bool is_functions_in_place = true;
-  for (int i = 0; i < strlen(string); i++) {
-    char c = tolower(string[i]);
+  for (int i = 0; i < strlen(string_data); i++) {
+    char c = tolower(string_data[i]);
     if (isalpha(c) and c != 'x') {
       char literals[][10] = {"sin(",  "cos(",  "tan(", "acos(", "asin(",
                              "atan(", "sqrt(", "ln(",  "log("};
@@ -129,7 +129,7 @@ bool CalculatorModel::check_functions_in_place(char string[]) {
       bool found_literal = false;
       int correct_literal_index = -1;
       for (int j = 0; j < literal_size; j++) {
-        if (check_function_literal(string, i, literals[j])) {
+        if (check_function_literal(i, literals[j])) {
           found_literal = true;
           correct_literal_index = j;
         }
@@ -144,26 +144,27 @@ bool CalculatorModel::check_functions_in_place(char string[]) {
   return is_functions_in_place;
 }
 
-bool CalculatorModel::check_operations_in_place(char string[]) {
-  const int length = strlen(string);
+bool CalculatorModel::check_operations_in_place() {
+  const int length = strlen(string_data);
   bool is_operation_in_place = true;
   for (int i = 0; i < length; i++) {
-    if (is_binary_character_operation(string[i])) {
-      if (i - 1 < 0 or string[i - 1] != 'x' and not isdigit(string[i - 1]) and
-                           string[i - 1] != '(' and string[i - 1] != ')')
+    if (is_binary_character_operation(string_data[i])) {
+      if (i - 1 < 0 or
+          string_data[i - 1] != 'x' and not isdigit(string_data[i - 1]) and
+              string_data[i - 1] != '(' and string_data[i - 1] != ')')
         is_operation_in_place = false;
-      if (i + 1 >= length or string[i + 1] != 'x' and
-                                 not is_start_of_func_literal(string[i + 1]) and
-                                 not isdigit(string[i + 1]) and
-                                 string[i + 1] != '(')
+      if (i + 1 >= length or
+          string_data[i + 1] != 'x' and
+              not is_start_of_func_literal(string_data[i + 1]) and
+              not isdigit(string_data[i + 1]) and string_data[i + 1] != '(')
         is_operation_in_place = false;
     }
-    if (is_unary_character_operator(string[i])) {
-      if (i + 1 >= length or string[i + 1] != 'x' and
-                                 not is_start_of_func_literal(string[i + 1]) and
-                                 not isdigit(string[i + 1]) and
-                                 string[i + 1] != '(' and
-                                 string[i + 1] != ')') {
+    if (is_unary_character_operator(string_data[i])) {
+      if (i + 1 >= length or
+          string_data[i + 1] != 'x' and
+              not is_start_of_func_literal(string_data[i + 1]) and
+              not isdigit(string_data[i + 1]) and string_data[i + 1] != '(' and
+              string_data[i + 1] != ')') {
         is_operation_in_place = false;
       }
     }
@@ -171,34 +172,35 @@ bool CalculatorModel::check_operations_in_place(char string[]) {
   return is_operation_in_place;
 }
 
-bool CalculatorModel::check_x_in_place(char string[]) {
-  const int length = strlen(string);
+bool CalculatorModel::check_x_in_place() {
+  const int length = strlen(string_data);
   bool is_x_in_place = true;
   for (int i = 0; i < length; i++) {
-    if (string[i] == 'x') {
-      if (i - 1 >= 0 and not is_unary_character_operator(string[i - 1]) and
-          not is_binary_character_operation(string[i - 1]) and
-          string[i - 1] != '(' and string[i - 1] != ')')
+    if (string_data[i] == 'x') {
+      if (i - 1 >= 0 and not is_unary_character_operator(string_data[i - 1]) and
+          not is_binary_character_operation(string_data[i - 1]) and
+          string_data[i - 1] != '(' and string_data[i - 1] != ')')
         is_x_in_place = false;
-      if (i + 1 < length and not is_unary_character_operator(string[i + 1]) and
-          not is_binary_character_operation(string[i + 1]) and
-          string[i + 1] != '(' and string[i + 1] != ')')
+      if (i + 1 < length and
+          not is_unary_character_operator(string_data[i + 1]) and
+          not is_binary_character_operation(string_data[i + 1]) and
+          string_data[i + 1] != '(' and string_data[i + 1] != ')')
         is_x_in_place = false;
     }
   }
   return is_x_in_place;
 }
 
-bool CalculatorModel::check_braces_in_place(char string[]) {
+bool CalculatorModel::check_braces_in_place() {
   int braces_cnt = 0;
-  const int length = strlen(string);
+  const int length = strlen(string_data);
   bool is_braces_in_place = true;
   for (int i = 0; i < length; i++) {
-    char c = string[i];
+    char c = string_data[i];
     if (c == '(') braces_cnt++;
     if (c == ')') {
       braces_cnt--;
-      if (i > 0 and string[i - 1] == '(') {
+      if (i > 0 and string_data[i - 1] == '(') {
         is_braces_in_place = false;
       }
     }
@@ -210,40 +212,42 @@ bool CalculatorModel::check_braces_in_place(char string[]) {
   return is_braces_in_place;
 }
 
-bool CalculatorModel::check_braces_divided(char string[]) {
+bool CalculatorModel::check_braces_divided() {
   bool is_braces_devided_with_operations_or_funcs = true;
-  for (int i = 1; i < strlen(string); i++) {
-    if (string[i] == '(' and string[i - 1] != '(' and
-        not isalpha(string[i - 1]) and
-        not is_unary_character_operator(string[i - 1]) and
-        not is_binary_character_operation(string[i - 1])) {
+  for (int i = 1; i < strlen(string_data); i++) {
+    if (string_data[i] == '(' and string_data[i - 1] != '(' and
+        not isalpha(string_data[i - 1]) and
+        not is_unary_character_operator(string_data[i - 1]) and
+        not is_binary_character_operation(string_data[i - 1])) {
       is_braces_devided_with_operations_or_funcs = false;
     }
-    if (string[i] == ')' and i < strlen(string) - 1 and string[i + 1] != ')' and
-        not is_unary_character_operator(string[i + 1]) and
-        not is_binary_character_operation(string[i + 1])) {
+    if (string_data[i] == ')' and i < strlen(string_data) - 1 and
+        string_data[i + 1] != ')' and
+        not is_unary_character_operator(string_data[i + 1]) and
+        not is_binary_character_operation(string_data[i + 1])) {
       is_braces_devided_with_operations_or_funcs = false;
     }
   }
   return is_braces_devided_with_operations_or_funcs;
 }
 
-bool CalculatorModel::check_concating_numbers(char string[]) {
+bool CalculatorModel::check_concating_numbers() {
   bool is_concating_numbers_in_place = true;
-  for (int i = 0; i < strlen(string); i++) {
-    if (string[i] == ' ') {
+  for (int i = 0; i < strlen(string_data); i++) {
+    if (string_data[i] == ' ') {
       int j = i;
-      while (j >= 0 and string[j] == ' ') {
+      while (j >= 0 and string_data[j] == ' ') {
         j--;
       }
       bool is_x_or_num_left =
-          j >= 0 and (string[j] == 'x' or isdigit(string[j]));
+          j >= 0 and (string_data[j] == 'x' or isdigit(string_data[j]));
       j = i;
-      while (j < strlen(string) and string[j] == ' ') {
+      while (j < strlen(string_data) and string_data[j] == ' ') {
         j++;
       }
       bool is_x_or_num_right =
-          j < strlen(string) and (string[j] == 'x' or isdigit(string[j]));
+          j < strlen(string_data) and
+          (string_data[j] == 'x' or isdigit(string_data[j]));
       if (is_x_or_num_left and is_x_or_num_right) {
         is_concating_numbers_in_place = false;
       }
@@ -252,28 +256,31 @@ bool CalculatorModel::check_concating_numbers(char string[]) {
   return is_concating_numbers_in_place;
 }
 
-bool CalculatorModel::check_trash(char string[]) {
+bool CalculatorModel::check_trash() {
   bool is_trash_symbols_in_place = true;
-  for (int i = 0; i < strlen(string); i++) {
-    if (not isalpha(string[i]) and not isdigit(string[i]) and
-        string[i] != 'x' and not is_binary_character_operation(string[i]) and
-        not is_unary_character_operator(string[i]) and string[i] != '(' and
-        string[i] != ')' and string[i] != ',' and string[i] != '.') {
+  for (int i = 0; i < strlen(string_data); i++) {
+    if (not isalpha(string_data[i]) and not isdigit(string_data[i]) and
+        string_data[i] != 'x' and
+        not is_binary_character_operation(string_data[i]) and
+        not is_unary_character_operator(string_data[i]) and
+        string_data[i] != '(' and string_data[i] != ')' and
+        string_data[i] != ',' and string_data[i] != '.') {
       is_trash_symbols_in_place = false;
     }
   }
   return is_trash_symbols_in_place;
 }
 
-bool CalculatorModel::check_one_dot_per_num(char string[]) {
+bool CalculatorModel::check_one_dot_per_num() {
   bool is_one_dot_per_num = true;
-  for (int i = 0; i < strlen(string); i++) {
-    if (isdigit(string[i])) {
+  for (int i = 0; i < strlen(string_data); i++) {
+    if (isdigit(string_data[i])) {
       int j = i;
       int cnt_dots = 0;
-      while (j < strlen(string) and
-             (isdigit(string[j]) or string[j] == '.' or string[j] == ',')) {
-        cnt_dots += string[j] == '.' or string[j] == ',';
+      while (j < strlen(string_data) and
+             (isdigit(string_data[j]) or string_data[j] == '.' or
+              string_data[j] == ',')) {
+        cnt_dots += string_data[j] == '.' or string_data[j] == ',';
         j++;
       }
       if (cnt_dots > 1) {
@@ -284,51 +291,49 @@ bool CalculatorModel::check_one_dot_per_num(char string[]) {
   return is_one_dot_per_num;
 }
 
-bool CalculatorModel::check_value_div_with_operations(char string[]) {
+bool CalculatorModel::check_value_div_with_operations() {
   bool is_value_divided_with_operations = true;
-  for (int i = 1; i < strlen(string); i++) {
-    if (isalpha(string[i]) and isdigit(string[i - 1]) or
-        isdigit(string[i]) and isalpha(string[i - 1])) {
+  for (int i = 1; i < strlen(string_data); i++) {
+    if (isalpha(string_data[i]) and isdigit(string_data[i - 1]) or
+        isdigit(string_data[i]) and isalpha(string_data[i - 1])) {
       is_value_divided_with_operations = false;
     }
   }
   return is_value_divided_with_operations;
 }
 
-// bool is_valid_input(char string[]) { return true; }
+// bool is_valid_input() { return true; }
 
-bool CalculatorModel::is_valid_input(char string_argument[]) {
-  if (strcmp(string_argument, "") == 0) return false;
-  if (strlen(string_argument) > 255) return false;
-  for (int i = 0; i < strlen(string_argument); i++) {
-    if (string_argument[i] == '%') return false;
+bool CalculatorModel::is_valid_input() {
+  if (strcmp(string_data, "") == 0) return false;
+  if (strlen(string_data) > 255) return false;
+  for (int i = 0; i < strlen(string_data); i++) {
+    if (string_data[i] == '%') return false;
   }
-  char string[MAXLENGTH] = "";
-  replace_mod(string_argument, string);
-  bool is_concating_numbers_in_place = check_concating_numbers(string);
+  char string_data[MAXLENGTH] = "";
+  replace_mod(string_data);
+  bool is_concating_numbers_in_place = check_concating_numbers();
 
-  bool is_one_dot_per_num = check_one_dot_per_num(string);
-  delete_spaces(string);
-  bool is_value_divided_with_operations =
-      check_value_div_with_operations(string);
+  bool is_one_dot_per_num = check_one_dot_per_num();
+  delete_spaces();
+  bool is_value_divided_with_operations = check_value_div_with_operations();
   int cnt_x_or_vals = 0;
-  for (int i = 0; i < strlen(string); i++) {
-    cnt_x_or_vals += isdigit(string[i]) or string[i] == 'x';
+  for (int i = 0; i < strlen(string_data); i++) {
+    cnt_x_or_vals += isdigit(string_data[i]) or string_data[i] == 'x';
   }
   bool at_least_one_val = cnt_x_or_vals > 0;
-  bool is_trash_symbols_in_place = check_trash(string);
-  bool is_braces_devided_with_operations_or_funcs =
-      check_braces_divided(string);
-  const int length = strlen(string);
+  bool is_trash_symbols_in_place = check_trash();
+  bool is_braces_devided_with_operations_or_funcs = check_braces_divided();
+  const int length = strlen(string_data);
   for (int i = 0; i < length; i++) {
-    string[i] = tolower(string[i]);
+    string_data[i] = tolower(string_data[i]);
   }
-  bool is_braces_in_place = check_braces_in_place(string);
-  bool is_x_in_place = check_x_in_place(string);
-  bool is_operation_in_place = check_operations_in_place(string);
-  bool is_functions_in_place = check_functions_in_place(string);
-  bool is_dots_in_place = check_dots_in_place(string);
-  bool is_leading_zeros_in_place = check_leading_zeroes(string);
+  bool is_braces_in_place = check_braces_in_place();
+  bool is_x_in_place = check_x_in_place();
+  bool is_operation_in_place = check_operations_in_place();
+  bool is_functions_in_place = check_functions_in_place();
+  bool is_dots_in_place = check_dots_in_place();
+  bool is_leading_zeros_in_place = check_leading_zeroes();
   return is_braces_in_place and is_dots_in_place and is_functions_in_place and
          is_x_in_place and is_operation_in_place and
          is_leading_zeros_in_place and is_value_divided_with_operations and
@@ -338,25 +343,24 @@ bool CalculatorModel::is_valid_input(char string_argument[]) {
          at_least_one_val;
 }
 
-void CalculatorModel::build_num_lex(char string[], int *i, long double x_value,
-                                    lexeme *lex) {
-  const int length = strlen(string);
-  char c = string[*i];
+void CalculatorModel::build_num_lex(int *i, long double x_value, lexeme *lex) {
+  const int length = strlen(string_data);
+  char c = string_data[*i];
   long double value = 0;
   if (c == 'x') {
     value = x_value;
-    if (*i - 1 >= 0 and string[*i - 1] == '-' and
-        (*i - 2 < 0 or string[*i - 2] == '(')) {
+    if (*i - 1 >= 0 and string_data[*i - 1] == '-' and
+        (*i - 2 < 0 or string_data[*i - 2] == '(')) {
       value = -value;
     }
   } else {
-    value = get_num_value(string + *i);
-    if (*i - 1 >= 0 and string[*i - 1] == '-' and
-        (*i - 2 < 0 or string[*i - 2] == '(')) {
+    value = get_num_value(*i);
+    if (*i - 1 >= 0 and string_data[*i - 1] == '-' and
+        (*i - 2 < 0 or string_data[*i - 2] == '(')) {
       value = -value;
     }
-    while (*i < length and
-           (isdigit(string[*i]) or string[*i] == ',' or string[*i] == '.')) {
+    while (*i < length and (isdigit(string_data[*i]) or
+                            string_data[*i] == ',' or string_data[*i] == '.')) {
       (*i) = (*i) + 1;
     }
     (*i) = (*i) - 1;
@@ -368,38 +372,38 @@ void CalculatorModel::build_num_lex(char string[], int *i, long double x_value,
   sprintf(lex->printed, "%Lf", value);
 }
 
-void CalculatorModel::build_func_lex(char string[], int *i, lexeme *lex) {
+void CalculatorModel::build_func_lex(int *i, lexeme *lex) {
   lex->priority = PRIORITY_HIGHEST;
   lex->type = FUNC_TYPE;
   int j = 0;
   int unary_sign = 0;
-  if (*i - 1 >= 0 and string[*i - 1] == '-' and
-      (*i - 2 < 0 or string[*i - 2] == '(')) {
+  if (*i - 1 >= 0 and string_data[*i - 1] == '-' and
+      (*i - 2 < 0 or string_data[*i - 2] == '(')) {
     lex->printed[0] = '-';
     unary_sign = 1;
   }
-  while (string[*i + j] != '(') {
-    lex->printed[j + unary_sign] = string[*i + j];
-    lex->operation[j] = string[*i + j];
+  while (string_data[*i + j] != '(') {
+    lex->printed[j + unary_sign] = string_data[*i + j];
+    lex->operation[j] = string_data[*i + j];
     j++;
   }
   lex->printed[*i + j + unary_sign] = '\0';
   (*i) += j - 1;
 }
 
-void CalculatorModel::build_lexemes(char string[], lexeme *out_lexes,
-                                    int *out_lexes_size, long double x_value) {
-  const int length = strlen(string);
+void CalculatorModel::build_lexemes(lexeme *out_lexes, int *out_lexes_size,
+                                    long double x_value) {
+  const int length = strlen(string_data);
   lexeme lexes[MAXLENGTH];
   int size_lexes = 0;
   for (int i = 0; i < length; i++) {
-    char c = string[i];
+    char c = string_data[i];
     lexeme lex;
     strcpy(lex.printed, "not_set");
     if (isdigit(c) or c == 'x') {
-      build_num_lex(string, &i, x_value, &lex);
+      build_num_lex(&i, x_value, &lex);
     } else if (isalpha(c) and c != 'x') {
-      build_func_lex(string, &i, &lex);
+      build_func_lex(&i, &lex);
     } else if (c == '(') {
       lex.priority = PRIORITY_NONE;
       lex.type = OPEN_TYPE;
@@ -411,7 +415,7 @@ void CalculatorModel::build_lexemes(char string[], lexeme *out_lexes,
       lex.printed[0] = ')';
       lex.printed[1] = '\0';
     } else if (is_unary_character_operator(c) and i > 0 and
-               string[i - 1] != '(') {
+               string_data[i - 1] != '(') {
       lex.priority = PRIORITY_ONE;
       lex.type = OPERATION_TYPE;
       lex.operation[0] = c;
@@ -552,28 +556,32 @@ long double CalculatorModel::polish_calc(lexeme pol_lexs[], int pol_size) {
   return nums_stack[0];
 }
 
-long double CalculatorModel::calculate(char string_argument[],
-                                       long double x_value) {
-  char string_test[MAXLENGTH] = "";
-  strcpy(string_test, string_argument);
-  if (not is_valid_input(string_test)) {
+long double CalculatorModel::calculate(long double x_value) {
+  char string_buff[MAXLENGTH] = "";
+  strcpy(string_buff, string_data);
+  if (not is_valid_input()) {
     printf("\n|Crush because of calculation on invalid string!|\n");
     return -123456789.0;
   }
-  char string[MAXLENGTH];
-  replace_mod(string_test, string);
+  set_data(string_buff);
+  char string_data[MAXLENGTH];
+  replace_mod(string_data);
 
-  delete_spaces(string);
+  delete_spaces();
 
   lexeme lexes[MAXLENGTH];
   int lexes_size = 0;
-  build_lexemes(string, lexes, &lexes_size, x_value);
+  build_lexemes(lexes, &lexes_size, x_value);
 
   lexeme polish_lexs[MAXLENGTH];
   int polish_size = 0;
   dijkstra(lexes, &lexes_size, polish_lexs, &polish_size);
 
   return polish_calc(polish_lexs, polish_size);
+}
+
+void CalculatorModel::set_data(char string_data[]) {
+  strcpy(this->string_data, string_data);
 }
 
 PYBIND11_MODULE(libcalculate, m) {
