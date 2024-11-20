@@ -300,13 +300,19 @@ bool CalculatorModel::check_value_div_with_operations() {
   return is_value_divided_with_operations;
 }
 
+#include <iostream>
+using namespace std;
+
 bool CalculatorModel::is_valid_input() {
+  char string_init[MAXLENGTH] = "";
+  strncpy(string_init, string_data, MAXLENGTH);
+
   if (strcmp(string_data, "") == 0) return false;
   if (strlen(string_data) > 255) return false;
   for (int i = 0; i < strlen(string_data); i++) {
     if (string_data[i] == '%') return false;
   }
-  char string_data[MAXLENGTH] = "";
+  // char string_data[MAXLENGTH] = "";
   replace_mod(string_data);
   bool is_concating_numbers_in_place = check_concating_numbers();
 
@@ -330,6 +336,9 @@ bool CalculatorModel::is_valid_input() {
   bool is_functions_in_place = check_functions_in_place();
   bool is_dots_in_place = check_dots_in_place();
   bool is_leading_zeros_in_place = check_leading_zeroes();
+
+  set_data(string_init);
+
   return is_braces_in_place and is_dots_in_place and is_functions_in_place and
          is_x_in_place and is_operation_in_place and
          is_leading_zeros_in_place and is_value_divided_with_operations and
@@ -556,11 +565,12 @@ long double CalculatorModel::calculate(long double x_value) {
   char string_buff[MAXLENGTH] = "";
   strcpy(string_buff, string_data);
   if (not is_valid_input()) {
+    // cout << ": " <<  << "\n";
+    printf("\n|DEBUG:| string_data is : %s\n", this->string_data);
     printf("\n|Crush because of calculation on invalid string!|\n");
     return -123456789.0;
   }
   set_data(string_buff);
-  char string_data[MAXLENGTH];
   replace_mod(string_data);
 
   delete_spaces();
