@@ -3,212 +3,202 @@
 
 TEST(CoreTests, check_input) {
   CalculatorModel calcModel;
-  int err = 0;
+  int is_valid = 0;
   char string[] = "1+2+3-log(6)*sqrt(10)+ln(10)";
-  // calcModel.set_data(string);
+  calcModel.set_data(string);
+  is_valid = calcModel.is_valid_input();
+  ASSERT_EQ(1, is_valid);
+
+  char string_1[] = "1+2+3*ln()";
+  calcModel.set_data(string_1);
+  is_valid = calcModel.is_valid_input();
+  ASSERT_EQ(0, is_valid);
+
+  char string_2[] = "1,123123+2mod4+(3*7)+sqrt(7)";
+  calcModel.set_data(string_2);
+  is_valid = calcModel.is_valid_input();
+  ASSERT_EQ(1, is_valid);
+
+  // char string_3[] = "1+2mod4+3*(7+1)+acos(1/2)+5^2";
+  // calcModel.set_data(string_3);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_4[] = "1+2mod4+3*(7+1)+asin(1/)";
+  // calcModel.set_data(string_4);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_5[] = "^1+2mod4+3*(7+1)+atan(1/2)";
+  // calcModel.set_data(string_5);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_6[] = "cos(1/2)+2mod4+3*(7+1)+sin(0)";
+  // calcModel.set_data(string_6);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_7[] = "tan(1/2)+2mod4+3*(7+1)+asin(0)+atan(0)";
+  // calcModel.set_data(string_7);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_8[] = "123456789+";
+  // calcModel.set_data(string_8);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_9[] = "1/2+acos(3)-log(6)+ln(8)-asin(5)+atan(3)+cos(213)^";
+  // calcModel.set_data(string_9);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_10[] = "";
+  // calcModel.set_data(string_10);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_11[] = "1+4/";
+  // calcModel.set_data(string_11);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_12[] = "1+4*";
+  // calcModel.set_data(string_12);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_13[] = "1+5-4*)";
+  // calcModel.set_data(string_13);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_14[] = "1+((5-4)/410";
+  // calcModel.set_data(string_14);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_15[] = "4mod2+(5-4)";
+  // calcModel.set_data(string_15);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_16[] = "00+(5-4)";
+  // calcModel.set_data(string_16);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_16_1[] = "0+(5-4)";
+  // calcModel.set_data(string_16_1);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_17[] = "*0+(5-4)";
+  // calcModel.set_data(string_17);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_18[] = "1/0+2";
+  // calcModel.set_data(string_18);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_19[] = "1+";
+  // calcModel.set_data(string_19);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_error[] = "ERROR";
+  // calcModel.set_data(string_error);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_nan[] = "nan";
+  // calcModel.set_data(string_nan);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_inf[] = "inf";
+  // calcModel.set_data(string_inf);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_20[] = "1+x";
+  // calcModel.set_data(string_20);
+  // int err_x = 0;
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+  // ASSERT_EQ(0, err_x);
+
+  // char string_21[] = "cos(x)-sin(4)";
+  // calcModel.set_data(string_21);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_22[] = "1x";
+  // calcModel.set_data(string_22);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_23[] = "x5";
+  // calcModel.set_data(string_23);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_24[] = "-mod9";
+  // calcModel.set_data(string_24);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_25[] = "9mod-";
+  // calcModel.set_data(string_25);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_26[] = "9.";
+  // calcModel.set_data(string_26);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_27[] = "311,312,321";
+  // calcModel.set_data(string_27);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_28[] = "9,312.321";
+  // calcModel.set_data(string_28);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_29[] = "-321.312,321";
+  // calcModel.set_data(string_29);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_30[] = "-0.0.0";
+  // calcModel.set_data(string_30);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(0, is_valid);
+
+  // char string_31[] = "-55,32";
+  // calcModel.set_data(string_31);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_32[] = "-55.32";
+  // calcModel.set_data(string_32);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
+
+  // char string_33[] = "1.1^(120)*0,01";
+  // calcModel.set_data(string_33);
+  // is_valid = calcModel.is_valid_input();
+  // ASSERT_EQ(1, is_valid);
 }
-//   double answer = 0.0;
-//   err = calcModel.is_valid_input(string);
-//   if (err == 1) answer = calcModel.calculate(string, 0);
-//   ASSERT_EQ(1, err);
-
-//   char string_1[] = "1+2+3*ln()";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_1);
-//   if (err == 1) answer = calcModel.calculate(string, 0);
-//   ASSERT_EQ(0, err);
-
-//   char string_2[] = "1,123123+2mod4+(3*7)+sqrt(7)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_2);
-//   if (err == 1) answer = calcModel.calculate(string, 0);
-//   ASSERT_EQ(1, err);
-
-//   char string_3[] = "1+2mod4+3*(7+1)+acos(1/2)+5^2";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_3);
-//   if (err == 1) answer = calcModel.calculate(string, 0);
-//   ASSERT_EQ(1, err);
-
-//   char string_4[] = "1+2mod4+3*(7+1)+asin(1/)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_4);
-//   if (err == 1) answer = calcModel.calculate(string, 0);
-//   ASSERT_EQ(0, err);
-
-//   char string_5[] = "^1+2mod4+3*(7+1)+atan(1/2)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_5);
-//   if (err == 1) answer = calcModel.calculate(string, 0);
-//   ASSERT_EQ(0, err);
-
-//   char string_6[] = "cos(1/2)+2mod4+3*(7+1)+sin(0)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_6);
-//   if (err == 1) answer = calcModel.calculate(string, 0);
-//   ASSERT_EQ(1, err);
-
-//   char string_7[] = "tan(1/2)+2mod4+3*(7+1)+asin(0)+atan(0)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_7);
-//   ASSERT_EQ(1, err);
-
-//   char string_8[] = "123456789+";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_8);
-//   ASSERT_EQ(0, err);
-
-//   char string_9[] = "1/2+acos(3)-log(6)+ln(8)-asin(5)+atan(3)+cos(213)^";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_9);
-//   ASSERT_EQ(0, err);
-
-//   char string_10[] = "";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_10);
-//   ASSERT_EQ(0, err);
-
-//   char string_11[] = "1+4/";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_11);
-//   ASSERT_EQ(0, err);
-
-//   char string_12[] = "1+4*";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_12);
-//   ASSERT_EQ(0, err);
-
-//   char string_13[] = "1+5-4*)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_13);
-//   ASSERT_EQ(0, err);
-
-//   char string_14[] = "1+((5-4)/410";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_14);
-//   ASSERT_EQ(0, err);
-
-//   char string_15[] = "4mod2+(5-4)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_15);
-//   ASSERT_EQ(1, err);
-
-//   char string_16[] = "00+(5-4)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_16);
-//   ASSERT_EQ(0, err);
-//   ASSERT_NEAR(0.0, answer, 1e-8);
-
-//   char string_16_1[] = "0+(5-4)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_16_1);
-//   ASSERT_EQ(1, err);
-
-//   char string_17[] = "*0+(5-4)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_17);
-//   ASSERT_EQ(0, err);
-
-//   char string_18[] = "1/0+2";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_18);
-//   ASSERT_EQ(1, err);
-
-//   char string_19[] = "1+";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_19);
-//   ASSERT_EQ(0, err);
-
-//   char string_error[] = "ERROR";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_error);
-//   ASSERT_EQ(0, err);
-
-//   char string_nan[] = "nan";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_nan);
-//   ASSERT_EQ(0, err);
-
-//   char string_inf[] = "inf";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_inf);
-//   ASSERT_EQ(0, err);
-
-//   char string_20[] = "1+x";
-//   answer = 0.0;
-//   int err_x = 0;
-//   err = calcModel.is_valid_input(string_20);
-//   ASSERT_EQ(1, err);
-//   ASSERT_EQ(0, err_x);
-
-//   char string_21[] = "cos(x)-sin(4)";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_21);
-//   ASSERT_EQ(1, err);
-
-//   char string_22[] = "1x";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_22);
-//   ASSERT_EQ(0, err);
-
-//   char string_23[] = "x5";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_23);
-//   ASSERT_EQ(0, err);
-
-//   char string_24[] = "-mod9";
-//   err = calcModel.is_valid_input(string);
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_24);
-//   ASSERT_EQ(0, err);
-
-//   char string_25[] = "9mod-";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_25);
-//   ASSERT_EQ(0, err);
-
-//   char string_26[] = "9.";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_26);
-//   ASSERT_EQ(0, err);
-
-//   char string_27[] = "311,312,321";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_27);
-//   ASSERT_EQ(0, err);
-
-//   char string_28[] = "9,312.321";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_28);
-//   ASSERT_EQ(0, err);
-
-//   char string_29[] = "-321.312,321";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_29);
-//   ASSERT_EQ(0, err);
-
-//   char string_30[] = "-0.0.0";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_30);
-//   ASSERT_EQ(0, err);
-
-//   char string_31[] = "-55,32";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_31);
-//   ASSERT_EQ(1, err);
-
-//   char string_32[] = "-55.32";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_32);
-//   ASSERT_EQ(1, err);
-
-//   char string_33[] = "1.1^(120)*0,01";
-//   answer = 0.0;
-//   err = calcModel.is_valid_input(string_33);
-//   ASSERT_EQ(1, err);
-// }
-
+//====================================================================
 // TEST(CoreTests, calculator) {
+///////////ASSERT_NEAR(0.0, answer, 1e-8);
 //   CalculatorModel calcModel;
 //   double answer = 0.0;
 //   double res_original = 0.0;

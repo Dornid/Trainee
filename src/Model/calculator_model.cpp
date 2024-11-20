@@ -1,7 +1,5 @@
 #include "calculator_model.hpp"
 
-#define MAXLENGTH 300
-
 // func_literal should contain '(' for good working!
 bool CalculatorModel::check_function_literal(int start_index,
                                              char func_literal[]) {
@@ -302,8 +300,6 @@ bool CalculatorModel::check_value_div_with_operations() {
   return is_value_divided_with_operations;
 }
 
-// bool is_valid_input() { return true; }
-
 bool CalculatorModel::is_valid_input() {
   if (strcmp(string_data, "") == 0) return false;
   if (strlen(string_data) > 255) return false;
@@ -582,11 +578,13 @@ long double CalculatorModel::calculate(long double x_value) {
 
 void CalculatorModel::set_data(char string_data[]) {
   strcpy(this->string_data, string_data);
+  // strncpy(this->string_data, string_data, MAXLENGTH);
 }
 
 PYBIND11_MODULE(libcalculate, m) {
   pybind11::class_<CalculatorModel>(m, "CalculatorModel")
       .def(pybind11::init())
       .def("is_valid_input", &CalculatorModel::is_valid_input)
-      .def("calculate", &CalculatorModel::calculate);
+      .def("calculate", &CalculatorModel::calculate)
+      .def("set_data", &CalculatorModel::set_data);
 }

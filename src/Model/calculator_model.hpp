@@ -12,6 +12,7 @@
 #include <string.h>
 
 #define STACK_CAPACITY 300
+#define MAXLENGTH 300
 
 #define PRIORITY_ZERO 0
 #define PRIORITY_ONE 1
@@ -28,7 +29,7 @@
 
 class CalculatorModel {
  private:
-  char *string_data = nullptr;
+  char string_data[MAXLENGTH] = "";
   typedef struct {
     long double value;
     int priority;
