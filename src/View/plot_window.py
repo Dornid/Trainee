@@ -6,13 +6,13 @@ from Controller.user_controller import UserController
 
 class PlotWindow(QMainWindow):
 
-    def __init__(self, main_window: QMainWindow):
+    def __init__(self, main_window: QMainWindow, controller: UserController):
         super().__init__()
 
         self.ui = Ui_Plot()
         self.ui.setupUi(self)
 
-        self.controller = UserController()
+        self.controller = controller
 
         self.setWindowTitle("Plot/graph window")
 

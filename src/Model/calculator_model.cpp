@@ -1,6 +1,7 @@
 #include "calculator_model.hpp"
 
 // func_literal should contain '(' for good working!
+namespace s21 {
 bool CalculatorModel::check_function_literal(int start_index,
                                              char func_literal[]) {
   bool is_ok = true;
@@ -300,9 +301,6 @@ bool CalculatorModel::check_value_div_with_operations() {
   return is_value_divided_with_operations;
 }
 
-#include <iostream>
-using namespace std;
-
 bool CalculatorModel::is_valid_input() {
   char string_init[MAXLENGTH] = "";
   strncpy(string_init, string_data, MAXLENGTH);
@@ -312,7 +310,6 @@ bool CalculatorModel::is_valid_input() {
   for (int i = 0; i < strlen(string_data); i++) {
     if (string_data[i] == '%') return false;
   }
-  // char string_data[MAXLENGTH] = "";
   replace_mod(string_data);
   bool is_concating_numbers_in_place = check_concating_numbers();
 
@@ -565,8 +562,6 @@ long double CalculatorModel::calculate(long double x_value) {
   char string_buff[MAXLENGTH] = "";
   strcpy(string_buff, string_data);
   if (not is_valid_input()) {
-    // cout << ": " <<  << "\n";
-    printf("\n|DEBUG:| string_data is : %s\n", this->string_data);
     printf("\n|Crush because of calculation on invalid string!|\n");
     return -123456789.0;
   }
@@ -588,13 +583,13 @@ long double CalculatorModel::calculate(long double x_value) {
 
 void CalculatorModel::set_data(char string_data[]) {
   strcpy(this->string_data, string_data);
-  // strncpy(this->string_data, string_data, MAXLENGTH);
 }
+}  // namespace s21
 
 PYBIND11_MODULE(libcalculate, m) {
-  pybind11::class_<CalculatorModel>(m, "CalculatorModel")
+  pybind11::class_<s21::CalculatorModel>(m, "CalculatorModel")
       .def(pybind11::init())
-      .def("is_valid_input", &CalculatorModel::is_valid_input)
-      .def("calculate", &CalculatorModel::calculate)
-      .def("set_data", &CalculatorModel::set_data);
+      .def("is_valid_input", &s21::CalculatorModel::is_valid_input)
+      .def("calculate", &s21::CalculatorModel::calculate)
+      .def("set_data", &s21::CalculatorModel::set_data);
 }

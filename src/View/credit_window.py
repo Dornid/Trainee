@@ -5,13 +5,13 @@ from Controller.user_controller import UserController
 
 class CreditWindow(QMainWindow):
 
-    def __init__(self):
+    def __init__(self, controller: UserController):
         super().__init__()
 
         self.ui = View.ui.credit_calc_ui.Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.controller = UserController()
+        self.controller = controller
 
         self.setWindowTitle("Credit details")
 

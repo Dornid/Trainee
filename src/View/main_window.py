@@ -8,12 +8,12 @@ from Controller.user_controller import UserController
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, controller: UserController):
         super(MainWindow, self).__init__()
         self.ui = View.ui.form_ui.Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.controller = UserController()
+        self.controller = controller
 
         self.setWindowTitle("Custom calculator")
 
@@ -57,11 +57,11 @@ class MainWindow(QMainWindow):
         self.input_field.setText(str(self.input_field.text()) + text)
 
     def open_credit(self):
-        self.credit_window = CreditWindow()
+        self.credit_window = CreditWindow(self.controller)
         self.credit_window.show()
 
     def make_deposit(self):
-        self.deposit_window = DepositWindow()
+        self.deposit_window = DepositWindow(self.controller)
         self.deposit_window.show()
 
     def calculate_expression(self):
@@ -97,7 +97,7 @@ class MainWindow(QMainWindow):
             self.output_field.setText("Invalid input or x")
             self.plot_window.close()
         else:
-            self.plot_window = PlotWindow(self)
+            self.plot_window = PlotWindow(self, self.controller)
             self.plot_window.show()
 
     def closeEvent(self, event) -> None:

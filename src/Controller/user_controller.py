@@ -4,8 +4,8 @@ from Model import help_functions, credit_model, deposit_model
 
 
 class UserController():
-    def __init__(self) -> None:
-        pass
+    def __init__(self, model) -> None:
+        self.model = model
 
     def calculate_expr_at(self, expr: str, x: float) -> float:
         return help_functions.calculate_expr_at(expr, x)

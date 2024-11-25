@@ -27,6 +27,7 @@
 #define OPERATION_TYPE 2222
 #define CLOSING_TYPE 666
 
+namespace s21 {
 class CalculatorModel {
  private:
   char string_data[MAXLENGTH] = "";
@@ -67,8 +68,7 @@ class CalculatorModel {
   long double calculate(long double x_value);
   bool is_valid_input();
   void set_data(char string_data[]);
-  // calculator_model(/* args */);
-  // ~calculator_model();
 };
+}  // namespace s21
 
 #endif  // CALCULATE_H

@@ -1,6 +1,8 @@
 #include "../Model/calculator_model.cpp"
 #include "testing_header.hpp"
 
+using namespace s21;
+
 TEST(CoreTests, check_input) {
   CalculatorModel calcModel;
   int is_valid = 0;
@@ -8,7 +10,6 @@ TEST(CoreTests, check_input) {
   calcModel.set_data(string);
   is_valid = calcModel.is_valid_input();
   ASSERT_EQ(1, is_valid);
-
   char string_1[] = "1+2+3*ln()";
   calcModel.set_data(string_1);
   is_valid = calcModel.is_valid_input();
