@@ -41,7 +41,7 @@ class CreditWindow(QMainWindow):
         self.apply_button.clicked.connect(self.calculate)
 
     def calculate(self):
-        str_payment, str_overpayment, str_total = self.controller.credit_calculate(
+        str_payment, str_overpayment, str_total = self.controller.set_then_credit_calculate(
             str(self.sum_field.text()),
             str(self.rate_field.text()),
             str(self.time_field.text()),

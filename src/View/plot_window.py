@@ -58,10 +58,10 @@ class PlotWindow(QMainWindow):
         y_min_str = str(self.y_min_edit.text())
         y_max_str = str(self.y_max_edit.text())
 
-        is_valid_inputs = self.controller.is_valid_inputs
+        is_valid_inputs = self.controller.set_then_validate
         is_valid_variable_str = self.controller.is_valid_variable_str
         float_from_str = self.controller.float_from_str
-        calculate_expr_at = self.controller.calculate_expr_at
+        calculate_expr_at = self.controller.set_then_calculate
 
         all_strs_valid = is_valid_inputs(
             self.main_window.get_expr(), self.main_window.get_variable_str()) \

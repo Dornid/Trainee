@@ -68,14 +68,14 @@ class MainWindow(QMainWindow):
 
         text_from_input_field: str = self.get_expr()
         x_val_str: str = self.get_variable_str()
-        is_valid = self.controller.is_valid_inputs(
+        is_valid = self.controller.set_then_validate(
             text_from_input_field, x_val_str)
 
         if not is_valid:
             self.output_field.setText("Invalid input or x")
         else:
             output_text = str(
-                self.controller.calculate_expr_at(
+                self.controller.set_then_calculate(
                     text_from_input_field,
                     self.controller.float_from_str(x_val_str)))
             self.output_field.setText(output_text)
@@ -93,7 +93,7 @@ class MainWindow(QMainWindow):
         return x_var
 
     def draw_plot(self):
-        if not self.controller.is_valid_inputs(self.get_expr(), self.get_variable_str()):
+        if not self.controller.set_then_validate(self.get_expr(), self.get_variable_str()):
             self.output_field.setText("Invalid input or x")
             self.plot_window.close()
         else:

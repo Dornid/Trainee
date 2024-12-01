@@ -11,10 +11,12 @@ class UserController():
     def set_calculator_data(self, data: str):
         self.main_model.set_calculator_data(data)
 
-    def calculate_expr_at(self, expr: str, x: float) -> float:
+    def set_then_calculate(self, expr: str, x: float) -> float:
+        self.set_calculator_data(expr)
         return self.main_model.calculate_expr_at(expr, x)
 
-    def is_valid_inputs(self, expr: str, x: str) -> bool:
+    def set_then_validate(self, expr: str, x: str) -> bool:
+        self.set_calculator_data(expr)
         return self.main_model.is_valid_inputs(expr, x)
 
     def float_from_str(self, var_str: str) -> float:
@@ -29,11 +31,12 @@ class UserController():
     def day_in_this_year(self, year: int) -> int:
         return help_functions.day_in_this_year(year)
 
-    # def credit_calculate(self,
-    #                      sum_str: str, rate_str: str, time_str: str,
-    #                      month_is_checked: bool, annuity_is_checked: bool) -> tuple[str, str, str]:
-    #     return credit_model.credit_calculate(sum_str, rate_str, time_str,
-    #                                          month_is_checked, annuity_is_checked)
+    def set_then_credit_calculate(self,
+                         sum_str: str, rate_str: str, time_str: str,
+                         month_is_checked: bool, annuity_is_checked: bool) -> tuple[str, str, str]:
+        self.main_model.set_credit_data(sum_str, rate_str, time_str, 
+                                        month_is_checked, annuity_is_checked)
+        return self.main_model.credit_calculate()
 
     # def deposit_calculate(self, sum_str: str, rate_str: str, time_str: str,
     #                       tax_str: str, capitilization_checked: bool) -> tuple[str, str, str]:
