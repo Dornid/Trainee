@@ -38,6 +38,7 @@ class UserController():
                                         month_is_checked, annuity_is_checked)
         return self.main_model.credit_calculate()
 
-    # def deposit_calculate(self, sum_str: str, rate_str: str, time_str: str,
-    #                       tax_str: str, capitilization_checked: bool) -> tuple[str, str, str]:
-    #     return deposit_model.calculate(sum_str, rate_str, time_str, tax_str, capitilization_checked)
+    def set_then_deposit_calculate(self, sum_str: str, rate_str: str, time_str: str,
+                          tax_str: str, capitilization_checked: bool) -> tuple[str, str, str]:
+        self.main_model.set_deposit_data(sum_str, rate_str, time_str, tax_str, capitilization_checked)
+        return self.main_model.deposit_calculate()

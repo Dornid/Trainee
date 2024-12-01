@@ -1,39 +1,40 @@
 from Model.help_functions import *
 
 class DepositModel():
-    deposit, time, rate, capitilization_checked = 0.0, 0, 0.0, False
-    sum_str, rate_str, time_str, tax_str = "", "", "", ""
+    # deposit, time, rate, capitilization_checked = 0.0, 0, 0.0, False
+    sum_str, rate_str, time_str, tax_str, capitilization_checked = "", "", "", "", False
 
-    def set_input_data(self, sum_str: str, rate_str: str, time_str: str, tax_str: str):
+    # def set_input_data(self, sum_str: str, rate_str: str, time_str: str, tax_str: str):
+    #     self.sum_str = sum_str
+    #     self.rate_str = rate_str
+    #     self.time_str = time_str
+    #     self.tax_str = tax_str
+
+    def set_data(self, sum_str: str, rate_str: str, time_str: str, tax_str: str, capitilization_checked: bool):
         self.sum_str = sum_str
         self.rate_str = rate_str
         self.time_str = time_str
         self.tax_str = tax_str
-
-    def set_input_data(self, sum_str: str, rate_str: str, time_str: str, tax_str: str):
-        self.sum_str = sum_str
-        self.rate_str = rate_str
-        self.time_str = time_str
-        self.tax_str = tax_str
+        self.capitilization_checked = capitilization_checked
 
     def check_nums_input(self) -> bool:
-        strs_inputs = [sum_str, rate_str, time_str,
-                    tax_str]
+        strs_inputs = [self.sum_str, self.rate_str, self.time_str,
+                    self.tax_str]
 
         all_strs_correct = sum([is_valid_variable_str(var_str) for var_str in strs_inputs]) == len(strs_inputs) \
-            and is_valid_integer_varible_str(time_str)
+            and is_valid_integer_varible_str(self.time_str)
 
         all_nums_correct = all_strs_correct \
-            and float_from_str(sum_str) > 0 \
-            and 0 <= float_from_str(rate_str) <= 100 \
-            and 0 <= float_from_str(tax_str) <= 100 \
-            and float_from_str(time_str) > 0 \
-            and float_from_str(time_str) <= 18250
+            and float_from_str(self.sum_str) > 0 \
+            and 0 <= float_from_str(self.rate_str) <= 100 \
+            and 0 <= float_from_str(self.tax_str) <= 100 \
+            and float_from_str(self.time_str) > 0 \
+            and float_from_str(self.time_str) <= 18250
 
         return all_nums_correct
 
 
-    def process_charges_taxes(self) -> tuple[int, int]:
+    def process_charges_taxes(self, deposit: float, time: int, rate: float) -> tuple[int, int]:
         # (charges, taxes)
         KEY_BANK_PERCENT = 0.15
 
@@ -60,7 +61,7 @@ class DepositModel():
                 now_year += 1
                 now_month = 1
 
-            if capitilization_checked:
+            if self.capitilization_checked:
                 day_payment = round(
                     (charges + deposit) * rate / (100 * days_in_year), 2)
             else:
@@ -78,19 +79,18 @@ class DepositModel():
         return (charges, got_taxes)
 
 
-    def calculate(sum_str: str, rate_str: str, time_str: str, tax_str: str,
-                capitilization_checked: bool) -> tuple[str, str, str]:
+    def calculate(self) -> tuple[str, str, str]:
         tax_output, charges_output, final_sum_output = ("", "", "")
-        all_nums_correct = check_nums_input(sum_str, rate_str, time_str, tax_str)
+        all_nums_correct = self.check_nums_input()
 
         if all_nums_correct:
-            deposit = float_from_str(sum_str)
-            rate = float_from_str(rate_str)
-            time = int(float_from_str(time_str))
-            tax = float_from_str(tax_str)
+            deposit = float_from_str(self.sum_str)
+            rate = float_from_str(self.rate_str)
+            time = int(float_from_str(self.time_str))
+            tax = float_from_str(self.tax_str)
 
-            charges, got_taxes = process_charges_taxes(
-                deposit, time, rate, capitilization_checked)
+            charges, got_taxes = self.process_charges_taxes(
+                deposit, time, rate)
 
             charges_output = str(charges)
             final_sum_output = str(charges + deposit)

@@ -65,7 +65,6 @@ class MainWindow(QMainWindow):
         self.deposit_window.show()
 
     def calculate_expression(self):
-
         text_from_input_field: str = self.get_expr()
         x_val_str: str = self.get_variable_str()
         is_valid = self.controller.set_then_validate(

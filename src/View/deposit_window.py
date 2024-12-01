@@ -40,7 +40,7 @@ class DepositWindow(QMainWindow):
         self.make_deposit_button.clicked.connect(self.calculate)
 
     def calculate(self):
-        tax_output, charges_output, final_sum_output = self.controller.deposit_calculate(
+        tax_output, charges_output, final_sum_output = self.controller.set_then_deposit_calculate(
             str(self.sum_field.text()),
             str(self.rate_field.text()),
             str(self.time_field.text()),
