@@ -33,21 +33,12 @@ install: uninstall
 start_calculator:
 	./build/$(BINNAME)
 
-test: install
+tests: install
 	cd build/TestingFiles; \
 		. ../$(VENV_NAME)/bin/activate; \
 		$(CPP_N_FLAGS) *.cpp *.hpp -Wl,-rpath=$(PATH_BUILD)/Model -o test  -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME) -lpthread -lgtest `python3 -m pybind11 --includes` -lpython3.10; \
 		../deactivate; \
 		./test
-
-gcov_report: install
-	cd build/TestingFiles; \
-		$(CPP_N_FLAGS) -c *.c *.h ../Model/*.c ../Model/*.h $(CFLAGS_GCOV); \
-		$(CPP_N_FLAGS) *.o -o test_gcov $(LIBS_CHECK) -lgcov; \
-		./test_gcov 
-	lcov --directory ./build/ --capture --output ./build/Meow.info
-	genhtml ./build/Meow.info --output ./build/CatReport
-	open ./build/CatReport/index.html		
 
 dvi:
 	open ../README.md
