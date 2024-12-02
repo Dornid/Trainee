@@ -1,7 +1,7 @@
 VENV_NAME = CustomTemporatyVenv
 MAIN_PYTHON = main.py
 
-CPP = g++
+CPP_N_FLAGS = g++ -Wall -Werror -Wextra
 LIBS_CHECK = $(shell pkg-config --cflags --libs check) 
 C_FILE_TESTS = TestingFiles/testing_src.c TestingFiles/testing_header.h
 SHARED_LIB_NAME = calculate
@@ -21,7 +21,7 @@ install: uninstall
 		pip3 install pyqtgraph; \
 		pip3 install pybind11; \
 		cp ../Model ../Controller ../View ../TestingFiles ../$(MAIN_PYTHON) . -r; \
-		g++ -Wall -fPIC -shared ./Model/*.cpp ./Model/*.hpp -o ./Model/lib$(SHARED_LIB_NAME).so `python3 -m pybind11 --includes`; \
+		$(CPP_N_FLAGS) -Wall -fPIC -shared ./Model/*.cpp ./Model/*.hpp -o ./Model/lib$(SHARED_LIB_NAME).so `python3 -m pybind11 --includes`; \
 		pyside6-uic ./View/ui/form.ui -o ./View/ui/form_ui.py; \
 		pyside6-uic ./View/ui/form_plot.ui -o ./View/ui/form_plot_ui.py; \
 		pyside6-uic ./View/ui/credit_calc.ui -o ./View/ui/credit_calc_ui.py; \
@@ -36,14 +36,14 @@ start_calculator:
 test: install
 	cd build/TestingFiles; \
 		. ../$(VENV_NAME)/bin/activate; \
-		$(CPP) *.cpp *.hpp -Wl,-rpath=$(PATH_BUILD)/Model -o test  -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME) -lpthread -lgtest `python3 -m pybind11 --includes` -lpython3.10; \
+		$(CPP_N_FLAGS) *.cpp *.hpp -Wl,-rpath=$(PATH_BUILD)/Model -o test  -L$(PATH_BUILD)/Model -l$(SHARED_LIB_NAME) -lpthread -lgtest `python3 -m pybind11 --includes` -lpython3.10; \
 		../deactivate; \
 		./test
 
 gcov_report: install
 	cd build/TestingFiles; \
-		$(CPP) -c *.c *.h ../Model/*.c ../Model/*.h $(CFLAGS_GCOV); \
-		$(CPP) *.o -o test_gcov $(LIBS_CHECK) -lgcov; \
+		$(CPP_N_FLAGS) -c *.c *.h ../Model/*.c ../Model/*.h $(CFLAGS_GCOV); \
+		$(CPP_N_FLAGS) *.o -o test_gcov $(LIBS_CHECK) -lgcov; \
 		./test_gcov 
 	lcov --directory ./build/ --capture --output ./build/Meow.info
 	genhtml ./build/Meow.info --output ./build/CatReport

@@ -8,7 +8,7 @@ bool CalculatorModel::check_function_literal(int start_index,
   if (strlen(func_literal) + 1 + start_index >= strlen(string_data)) {
     is_ok = false;
   }
-  for (int i = 0; is_ok and i < strlen(func_literal); i++) {
+  for (size_t i = 0; is_ok and i < strlen(func_literal); i++) {
     if (string_data[start_index + i] != func_literal[i]) {
       is_ok = false;
     }
@@ -32,7 +32,7 @@ bool CalculatorModel::is_start_of_func_literal(char c) {
 void CalculatorModel::delete_spaces() {
   char buff_str[MAXLENGTH] = "";
   int next_index = 0;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     if (string_data[i] != ' ') {
       buff_str[next_index] = string_data[i];
       next_index++;
@@ -44,7 +44,7 @@ void CalculatorModel::delete_spaces() {
 void CalculatorModel::replace_mod(char to_str[]) {
   char buff_str[300] = "";
   int next_index = 0;
-  int i = 0;
+  size_t i = 0;
   for (; i < strlen(string_data) - 2; i++) {
     if (string_data[i] == 'm' and string_data[i + 1] == 'o' and
         string_data[i + 2] == 'd') {
@@ -90,7 +90,7 @@ bool CalculatorModel::check_leading_zeroes() {
   bool has_non_zero_before = false;
   for (int i = 0; i < length; i++) {
     char c = string_data[i];
-    if (isdigit(c) and c != '0' or c == '.' or c == ',') {
+    if ((isdigit(c) and c != '0') or c == '.' or c == ',') {
       has_non_zero_before = true;
     } else if (not isdigit(c)) {
       has_non_zero_before = false;
@@ -105,11 +105,11 @@ bool CalculatorModel::check_leading_zeroes() {
 
 bool CalculatorModel::check_dots_in_place() {
   bool is_dots_in_place = true;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     char c = tolower(string_data[i]);
     if (c == '.' or c == ',') {  // c == ',' or
       if (not(i + 1 < strlen(string_data) and isdigit(string_data[i + 1]) and
-              i - 1 >= 0 and isdigit(string_data[i - 1]))) {
+              (int) i - 1 >= 0 and isdigit(string_data[i - 1]))) {
         is_dots_in_place = false;
       }
     }
@@ -119,7 +119,7 @@ bool CalculatorModel::check_dots_in_place() {
 
 bool CalculatorModel::check_functions_in_place() {
   bool is_functions_in_place = true;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     char c = tolower(string_data[i]);
     if (isalpha(c) and c != 'x') {
       char literals[][10] = {"sin(",  "cos(",  "tan(", "acos(", "asin(",
@@ -149,21 +149,21 @@ bool CalculatorModel::check_operations_in_place() {
   for (int i = 0; i < length; i++) {
     if (is_binary_character_operation(string_data[i])) {
       if (i - 1 < 0 or
-          string_data[i - 1] != 'x' and not isdigit(string_data[i - 1]) and
-              string_data[i - 1] != '(' and string_data[i - 1] != ')')
+          (string_data[i - 1] != 'x' and not isdigit(string_data[i - 1]) and
+           string_data[i - 1] != '(' and string_data[i - 1] != ')'))
         is_operation_in_place = false;
       if (i + 1 >= length or
-          string_data[i + 1] != 'x' and
-              not is_start_of_func_literal(string_data[i + 1]) and
-              not isdigit(string_data[i + 1]) and string_data[i + 1] != '(')
+          (string_data[i + 1] != 'x' and
+           not is_start_of_func_literal(string_data[i + 1]) and
+           not isdigit(string_data[i + 1]) and string_data[i + 1] != '('))
         is_operation_in_place = false;
     }
     if (is_unary_character_operator(string_data[i])) {
       if (i + 1 >= length or
-          string_data[i + 1] != 'x' and
-              not is_start_of_func_literal(string_data[i + 1]) and
-              not isdigit(string_data[i + 1]) and string_data[i + 1] != '(' and
-              string_data[i + 1] != ')') {
+          (string_data[i + 1] != 'x' and
+           not is_start_of_func_literal(string_data[i + 1]) and
+           not isdigit(string_data[i + 1]) and string_data[i + 1] != '(' and
+           string_data[i + 1] != ')')) {
         is_operation_in_place = false;
       }
     }
@@ -213,7 +213,7 @@ bool CalculatorModel::check_braces_in_place() {
 
 bool CalculatorModel::check_braces_divided() {
   bool is_braces_devided_with_operations_or_funcs = true;
-  for (int i = 1; i < strlen(string_data); i++) {
+  for (size_t i = 1; i < strlen(string_data); i++) {
     if (string_data[i] == '(' and string_data[i - 1] != '(' and
         not isalpha(string_data[i - 1]) and
         not is_unary_character_operator(string_data[i - 1]) and
@@ -232,7 +232,7 @@ bool CalculatorModel::check_braces_divided() {
 
 bool CalculatorModel::check_concating_numbers() {
   bool is_concating_numbers_in_place = true;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     if (string_data[i] == ' ') {
       int j = i;
       while (j >= 0 and string_data[j] == ' ') {
@@ -241,11 +241,11 @@ bool CalculatorModel::check_concating_numbers() {
       bool is_x_or_num_left =
           j >= 0 and (string_data[j] == 'x' or isdigit(string_data[j]));
       j = i;
-      while (j < strlen(string_data) and string_data[j] == ' ') {
+      while (j < (int)strlen(string_data) and string_data[j] == ' ') {
         j++;
       }
       bool is_x_or_num_right =
-          j < strlen(string_data) and
+          j < (int)strlen(string_data) and
           (string_data[j] == 'x' or isdigit(string_data[j]));
       if (is_x_or_num_left and is_x_or_num_right) {
         is_concating_numbers_in_place = false;
@@ -257,7 +257,7 @@ bool CalculatorModel::check_concating_numbers() {
 
 bool CalculatorModel::check_trash() {
   bool is_trash_symbols_in_place = true;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     if (not isalpha(string_data[i]) and not isdigit(string_data[i]) and
         string_data[i] != 'x' and
         not is_binary_character_operation(string_data[i]) and
@@ -272,9 +272,9 @@ bool CalculatorModel::check_trash() {
 
 bool CalculatorModel::check_one_dot_per_num() {
   bool is_one_dot_per_num = true;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     if (isdigit(string_data[i])) {
-      int j = i;
+      size_t j = i;
       int cnt_dots = 0;
       while (j < strlen(string_data) and
              (isdigit(string_data[j]) or string_data[j] == '.' or
@@ -292,9 +292,9 @@ bool CalculatorModel::check_one_dot_per_num() {
 
 bool CalculatorModel::check_value_div_with_operations() {
   bool is_value_divided_with_operations = true;
-  for (int i = 1; i < strlen(string_data); i++) {
-    if (isalpha(string_data[i]) and isdigit(string_data[i - 1]) or
-        isdigit(string_data[i]) and isalpha(string_data[i - 1])) {
+  for (size_t i = 1; i < strlen(string_data); i++) {
+    if ((isalpha(string_data[i]) and isdigit(string_data[i - 1])) or
+        (isdigit(string_data[i]) and isalpha(string_data[i - 1]))) {
       is_value_divided_with_operations = false;
     }
   }
@@ -307,7 +307,7 @@ bool CalculatorModel::is_valid_input() {
 
   if (strcmp(string_data, "") == 0) return false;
   if (strlen(string_data) > 255) return false;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     if (string_data[i] == '%') return false;
   }
   replace_mod(string_data);
@@ -317,7 +317,7 @@ bool CalculatorModel::is_valid_input() {
   delete_spaces();
   bool is_value_divided_with_operations = check_value_div_with_operations();
   int cnt_x_or_vals = 0;
-  for (int i = 0; i < strlen(string_data); i++) {
+  for (size_t i = 0; i < strlen(string_data); i++) {
     cnt_x_or_vals += isdigit(string_data[i]) or string_data[i] == 'x';
   }
   bool at_least_one_val = cnt_x_or_vals > 0;
@@ -461,14 +461,14 @@ void CalculatorModel::dijkstra(lexeme in_lexes[], int *in_size,
       stack[stack_size] = cur_lex;
       stack_size++;
     } else if (cur_lex.type == OPERATION_TYPE) {
-      lexeme on_top = {0};
+      lexeme on_top = {0, 0, "", 0, ""};
       if (stack_size > 0) {
         on_top = stack[stack_size - 1];
       }
-      while (
-          stack_size > 0 and on_top.type == OPERATION_TYPE and
-          (on_top.priority > cur_lex.priority or
-           on_top.priority == cur_lex.priority and cur_lex.printed[0] != '^')) {
+      while (stack_size > 0 and on_top.type == OPERATION_TYPE and
+             (on_top.priority > cur_lex.priority or
+              (on_top.priority == cur_lex.priority and
+               cur_lex.printed[0] != '^'))) {
         out_lexes[*out_size] = on_top;
         *out_size += 1;
         stack_size -= 1;
@@ -479,7 +479,7 @@ void CalculatorModel::dijkstra(lexeme in_lexes[], int *in_size,
       stack[stack_size] = cur_lex;
       stack_size += 1;
     } else if (cur_lex.type == CLOSING_TYPE) {
-      lexeme on_top = {0};
+      lexeme on_top = {0, 0, "", 0, ""};
       if (stack_size > 0) {
         on_top = stack[stack_size - 1];
       }
